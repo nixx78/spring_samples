@@ -2,6 +2,9 @@ package lv.nixx.poc.rest.domain;
 
 import java.util.Date;
 
+/* Domain object for sample
+ * 
+ */
 public class Person {
 
 	private String name;
