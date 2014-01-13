@@ -2,11 +2,16 @@ package lv.nixx.poc.rest.domain;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /* Domain object for sample
  * 
  */
+
+@XmlRootElement
 public class Person {
 
+	private String id;
 	private String name;
 	private String surname;
 	private Date dateOfBirth;
@@ -15,12 +20,21 @@ public class Person {
 	public Person(){
 	}
 	
-	public Person(String name, String surname, Date dateOfBirth ){
+	public Person(String id, String name, String surname, Date dateOfBirth ){
+		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.dateOfBirth = dateOfBirth;
 	}
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -47,7 +61,7 @@ public class Person {
 	
 	@Override
 	public String toString(){
-		return name + ":" + surname + ":" + dateOfBirth;
+		return id + ":" + name + ":" + surname + ":" + dateOfBirth;
 	}
 	
 }
