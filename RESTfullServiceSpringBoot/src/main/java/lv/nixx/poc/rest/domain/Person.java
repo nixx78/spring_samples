@@ -1,17 +1,14 @@
 package lv.nixx.poc.rest.domain;
 
 import java.util.Date;
+import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlRootElement;
-
-/* Domain object for sample
- * 
- */
 
 @XmlRootElement
 public class Person {
 
-	private String id;
+	private UUID id;
 	private String name;
 	private String surname;
 	private Date dateOfBirth;
@@ -20,18 +17,18 @@ public class Person {
 	public Person(){
 	}
 	
-	public Person(String id, String name, String surname, Date dateOfBirth ){
+	public Person(UUID id, String name, String surname, Date dateOfBirth ){
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.dateOfBirth = dateOfBirth;
 	}
 	
-	public String getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
