@@ -1,8 +1,8 @@
 package lv.nixx.poc.rest.domain;
 
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -15,20 +15,22 @@ public class Person {
 	
 	// this constructor is needed for JSON converter
 	public Person(){
+		this.id = UUID.randomUUID();
 	}
 	
-	public Person(UUID id, String name, String surname, Date dateOfBirth ){
-		this.id = id;
+	public Person(String name, String surname, Date dateOfBirth ){
+		this.id = UUID.randomUUID();
 		this.name = name;
 		this.surname = surname;
 		this.dateOfBirth = dateOfBirth;
 	}
-	
+
+	@XmlAttribute(name="id")
 	public UUID getId() {
 		return id;
 	}
-
-	public void setId(UUID id) {
+	
+	public void setId(UUID id){
 		this.id = id;
 	}
 
