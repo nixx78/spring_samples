@@ -1,6 +1,7 @@
 package lv.nixx.poc.rest;
 
 import static org.junit.Assert.*;
+import static lv.nixx.poc.rest.PersonFixtures.*;
 
 import java.util.Date;
 import java.util.UUID;
@@ -32,8 +33,7 @@ public class RESTClientSample {
 		p = response.getBody();
 		
 		assertNotNull(p);
-	//	assertEquals(key, p.getId());
-		
+	
 		System.out.println("HTTP header 'Location' " + response.getHeaders().getFirst("Location"));
 		System.out.println("created person " + p + " status " + response.getStatusCode() );
 	}
@@ -48,7 +48,7 @@ public class RESTClientSample {
 	
 	@Test
 	public void deletePerson(){
-		restTemplate.delete(URL + "/{id}", 1000);
+		restTemplate.delete(URL + "/{id}", key);
 	}
 
 	@Test
@@ -90,12 +90,30 @@ public class RESTClientSample {
 	}
 	
 	@Test
+	public void updatePersonAsJSON(){
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> entity = new HttpEntity<String>(createPersonJSON(key), headers);
+		restTemplate.put(URL + "/{id}", entity, key);
+	}
+
+	@Test
+	public void updatePersonAsXML(){
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_XML);
+
+		HttpEntity<String> entity = new HttpEntity<String>(createPersonXML(key), headers);
+		restTemplate.put(URL + "/{id}", entity, key);
+	}
+	
+	@Test
 	public void addPersonAsJSON(){
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		HttpEntity<String> entity = new HttpEntity<String>(PersonFixtures.createPersonJSON(key), headers);
-		restTemplate.put(URL + "/" + key, entity);
+		HttpEntity<String> entity = new HttpEntity<String>(createPersonJSON(key), headers);
+		restTemplate.postForLocation(URL, entity, String.class);
 	}
 	
 	@Test
@@ -104,9 +122,8 @@ public class RESTClientSample {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_XML);
 		
-		final String xml = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><person id='1e7fa443-1331-4421-93a8-fb5093799aad'><dateOfBirth>2014-01-15T18:08:02.249+02:00</dateOfBirth><name>new.person.name</name><surname>new.person.surname</surname></person>";
-		HttpEntity<String> entity = new HttpEntity<String>(xml,headers);
-		restTemplate.put(URL + "/xml", entity);
+		HttpEntity<String> entity = new HttpEntity<String>(createPersonXML(key),headers);
+		restTemplate.postForLocation(URL, entity, String.class);
 	} 
 
 }

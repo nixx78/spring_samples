@@ -1,6 +1,7 @@
 package lv.nixx.poc.rest;
 
 import java.util.Date;
+import java.util.UUID;
 
 import lv.nixx.poc.rest.domain.Person;
 
@@ -12,8 +13,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Controller
 public class CRUDSampleController {
 	
-	private PersonService personService;
-
 	@RequestMapping(method=RequestMethod.POST, value="/person")
 	public @ResponseBody ResponseEntity<Person> addPerson(@RequestBody Person p, UriComponentsBuilder builder) {
 		System.out.println("adding person [" + p + "]");
@@ -28,8 +27,11 @@ public class CRUDSampleController {
 	
 	@RequestMapping(method=RequestMethod.GET, value="/person/xml/{id}", produces="application/xml")
 	public @ResponseBody Person getPersonAsXML(@PathVariable String id) {
+		System.out.println("get [" + id + "]");
+		
 		Person p = new Person("person.name", "person.surname", new Date());
-		System.out.println("get [" + p + "]");
+		p.setId(UUID.fromString(id));
+				
 		return p;
 	}
 	
@@ -40,7 +42,10 @@ public class CRUDSampleController {
 			// just fake behavior, we expect, that Person with id = '2000' not exists
             return new ResponseEntity<Person>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Person>(new Person("person.name", "person.surname", new Date()), HttpStatus.OK);
+		Person p = new Person("person.name", "person.surname", new Date());
+		p.setId(UUID.fromString(id));
+		
+		return new ResponseEntity<Person>(p, HttpStatus.OK);
 	}
 
 	@RequestMapping(method=RequestMethod.PUT, value="/person/{id}")
