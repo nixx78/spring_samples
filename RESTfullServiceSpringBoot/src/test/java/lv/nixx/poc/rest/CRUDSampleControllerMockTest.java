@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import org.junit.*;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -24,9 +23,6 @@ public class CRUDSampleControllerMockTest {
 	@InjectMocks
 	CRUDSampleController controller;
 	
-	@Mock
-	PersonService personService;
-
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);

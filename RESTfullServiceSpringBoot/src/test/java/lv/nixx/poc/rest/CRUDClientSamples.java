@@ -16,8 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.*;
 
-// Before test execution, sample server must be launched !!!
-public class RESTClientSample {
+// Before test execution, REST sample server must be launched !!!
+
+public class CRUDClientSamples {
 	
 	private final String URL = "http://localhost:8080/person";
 
@@ -33,9 +34,14 @@ public class RESTClientSample {
 		p = response.getBody();
 		
 		assertNotNull(p);
-	
-		System.out.println("HTTP header 'Location' " + response.getHeaders().getFirst("Location"));
-		System.out.println("created person " + p + " status " + response.getStatusCode() );
+		String location = response.getHeaders().getFirst("Location");
+		HttpStatus statusCode = response.getStatusCode();
+
+		assertNotNull("location", location ); 
+		assertEquals("status code", HttpStatus.CREATED, statusCode);
+		
+		System.out.println("HTTP header 'Location' " + location);
+		System.out.println("created person " + p + " status " + statusCode );
 	}
 	
 	@Test
@@ -53,7 +59,7 @@ public class RESTClientSample {
 
 	@Test
 	public void getPersonAsXML(){
-		ResponseEntity<String> response = restTemplate.getForEntity(URL + "/xml/{id}", String.class, key);
+		ResponseEntity<String> response = restTemplate.getForEntity(URL + "/{id}/xml", String.class, key);
 		String p = response.getBody();
 		
 		assertNotNull(p);
@@ -84,9 +90,9 @@ public class RESTClientSample {
 	public void getPersonAsJSON(){
 		ResponseEntity<String> response = restTemplate.getForEntity(URL + "/{id}", String.class, key.toString());
 		String p = response.getBody();
-		
+				
 		assertNotNull(p);
-		System.out.println("person: " + p);
+		System.out.println(response.getStatusCode() + " person: " + p);
 	}
 	
 	@Test

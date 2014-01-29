@@ -13,7 +13,7 @@ public class Person {
 	private String surname;
 	private Date dateOfBirth;
 	
-	// this constructor is needed for JSON converter
+	// this constructor without parameters is needed for JSON converter
 	public Person(){
 		this.id = UUID.randomUUID();
 	}

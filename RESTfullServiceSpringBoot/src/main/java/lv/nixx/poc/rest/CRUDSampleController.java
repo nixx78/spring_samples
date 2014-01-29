@@ -17,15 +17,13 @@ public class CRUDSampleController {
 	public @ResponseBody ResponseEntity<Person> addPerson(@RequestBody Person p, UriComponentsBuilder builder) {
 		System.out.println("adding person [" + p + "]");
 		
-		// personService.createPerson(p);
-		
 		HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/person/{id}").buildAndExpand(p.getId()).toUri());
 		
 		return new ResponseEntity<Person>(p, headers, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(method=RequestMethod.GET, value="/person/xml/{id}", produces="application/xml")
+	@RequestMapping(method=RequestMethod.GET, value="/person/{id}/xml", produces="application/xml")
 	public @ResponseBody Person getPersonAsXML(@PathVariable String id) {
 		System.out.println("get [" + id + "]");
 		
