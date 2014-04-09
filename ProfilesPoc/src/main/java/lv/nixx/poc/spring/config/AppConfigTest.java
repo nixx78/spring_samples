@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Profile;
 public class AppConfigTest {
 	
 	@Bean
-	public ProfiledBean getBean(){
+	public ProfiledBean testProfiledBean(){
 		return new ProfiledBean("test");
 	}
 

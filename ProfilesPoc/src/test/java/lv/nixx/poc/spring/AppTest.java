@@ -9,6 +9,20 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class AppTest {
+	
+	@Test
+	public void printBeans(){
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+		ctx.getEnvironment().setActiveProfiles("dev");
+		ctx.register(MainAppConfig.class, AppConfigTest.class, AppConfigDev.class);
+		ctx.refresh();
+		
+        String[] all = ctx.getBeanDefinitionNames();
+        for (String b: all) {
+			System.out.println(b);
+		}
+        
+	}
 
 	@Test
 	public void registerConfigApproach() {
@@ -18,7 +32,7 @@ public class AppTest {
 		ctx.refresh();
 		
 		assertEquals("profile [dev]", ctx.getBean(ProfiledBean.class).toString());
-		assertEquals("main bean",ctx.getBean(MainBean.class).toString());
+		assertEquals("name [default]",ctx.getBean("mainBean").toString());
 	}
 
 	@Test
@@ -27,7 +41,7 @@ public class AppTest {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext("lv.nixx.poc.spring.config");
 		
 		assertEquals("profile [test]", ctx.getBean(ProfiledBean.class).toString());
-		assertEquals("main bean",ctx.getBean(MainBean.class).toString());
+		assertEquals("name [namedBean]",ctx.getBean("namedBean").toString());
 	}
 
 }

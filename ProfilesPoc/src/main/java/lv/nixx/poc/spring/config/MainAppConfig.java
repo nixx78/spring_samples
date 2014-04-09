@@ -9,8 +9,13 @@ import org.springframework.context.annotation.Configuration;
 public class MainAppConfig {
 	
 	@Bean
-	public MainBean getMainBean(){
+	public MainBean mainBean(){
 		return new MainBean();
+	}
+	
+	@Bean(name="namedBean")
+	public MainBean getNamedBean(){
+		return new MainBean("namedBean");
 	}
 
 }
