@@ -1,5 +1,7 @@
 package lv.nixx.poc.spring.data.domain;
 
+import java.util.*;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,13 +15,17 @@ public class Customer {
     private String firstName;
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER)
     private CustomerType type;
     
     @OneToOne(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy="customer", targetEntity=CustomerExtension.class)
     private CustomerExtension extension;
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+    private Set<Adress> adress = new HashSet<>();
 
-    protected Customer() {}
+    protected Customer() {
+    }
 
     public Customer(String firstName, String lastName, CustomerType customerType) {
         this.firstName = firstName;
@@ -34,6 +40,11 @@ public class Customer {
 	public void setExtension(CustomerExtension extension) {
 		this.extension = extension;
 		this.extension.setCustomer(this);
+	}
+	
+	public void addAdress(Adress adress){
+		adress.setCustomer(this);
+		this.adress.add(adress);
 	}
 
 	@Override
