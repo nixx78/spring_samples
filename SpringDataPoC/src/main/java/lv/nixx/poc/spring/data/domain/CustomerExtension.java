@@ -43,5 +43,5 @@ public class CustomerExtension {
 	public String toString() {
 		return "Extension [id=" + id + ", additionalData=" + additionalData + "]";
 	}
-
+	
 }

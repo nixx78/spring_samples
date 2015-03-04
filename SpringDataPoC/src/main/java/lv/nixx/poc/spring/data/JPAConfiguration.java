@@ -48,8 +48,8 @@ public class JPAConfiguration {
 	}
 	
 	@Bean
-	public SimpleDAO simpleDAO(){
-		return new SimpleDAO();
+	public CustomerDAO simpleDAO(){
+		return new CustomerDAO();
 	}
 
 }

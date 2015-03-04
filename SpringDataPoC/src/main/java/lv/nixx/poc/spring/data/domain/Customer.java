@@ -15,7 +15,7 @@ public class Customer {
     private String firstName;
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private CustomerType type;
     
     @OneToOne(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy="customer", targetEntity=CustomerExtension.class)
@@ -36,6 +36,10 @@ public class Customer {
 	public CustomerExtension getExtension() {
 		return extension;
 	}
+	
+	public Long getId() {
+		return id;
+	}
 
 	public void setExtension(CustomerExtension extension) {
 		this.extension = extension;
@@ -45,6 +49,14 @@ public class Customer {
 	public void addAdress(Adress adress){
 		adress.setCustomer(this);
 		this.adress.add(adress);
+	}
+	
+	public Set<Adress> getAdress() {
+		return adress;
+	}
+
+	public CustomerType getType() {
+		return this.type;
 	}
 
 	@Override
