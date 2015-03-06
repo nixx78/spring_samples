@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import lv.nixx.poc.spring.data.domain.AdditionalField;
 import lv.nixx.poc.spring.data.domain.GenericPerson;
 import lv.nixx.poc.spring.data.domain.PersonExtension;
 import lv.nixx.poc.spring.data.repository.PersonRepository;
@@ -38,8 +39,18 @@ public class EmbedableClassTest {
 	@Test
 	public void createPersonsWithExtension() {
 		GenericPerson p1 = new GenericPerson("Ivan", "Ivanov", new PersonExtension("line1", "line2"));
+		p1.addAliase("alias1");
+		p1.addAliase("alias2");
+		p1.addAliase("alias3");
+		
 		GenericPerson p2 = new GenericPerson("John", "Smith",  new PersonExtension("line1", "line2"));
+		p2.addAdditionalField(new AdditionalField("p2_f11", "p2_f12"));
+		p2.addAdditionalField(new AdditionalField("p2_f21", "p2_f22"));
+		p2.addAdditionalField(new AdditionalField("p2_f31", "p2_f32"));
+		
 		GenericPerson p3 = new GenericPerson("Anna", "Smith", null);
+		p3.addAdditionalField(new AdditionalField("p3_f11", "p3_f12"));
+		p3.addAdditionalField(new AdditionalField("p3_f21", "p3_f22"));
 		
 		repository.save(p1);
 		repository.save(p2);
@@ -50,6 +61,8 @@ public class EmbedableClassTest {
 		Iterable<GenericPerson> findAll = repository.findAll();
 		for (GenericPerson person : findAll) {
 			System.out.println(person);
+			System.out.println("\t\t Aliases:" + person.getAliases());
+			System.out.println("\t\t Fields:" +  person.getAdditionalFields());
 		}
 		
 		Long p1Id = p1.getId();
@@ -67,7 +80,8 @@ public class EmbedableClassTest {
 		p3 = repository.findOne(p3Id);
 		assertNotNull(p3);
 		assertNull(p3.getExtension());
-
+		
+		repository.delete(p3Id);
 	}
 
 }

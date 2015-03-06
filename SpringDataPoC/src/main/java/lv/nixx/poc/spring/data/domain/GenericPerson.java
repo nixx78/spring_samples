@@ -1,16 +1,18 @@
 package lv.nixx.poc.spring.data.domain;
 
+import java.util.*;
+
 import javax.persistence.*;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-@Entity
-@Table(name="Generic_Person")
 
 /*
  * Можно выносить поля в супер класс, JPA будет их видеть, единсвенное, 
  * супер класс должен быть с аннотацией: @MappedSuperclass
  */
+@Entity
+@Table(name="Generic_Person")
 public class GenericPerson extends AbstractPersistable<Long> {
 
 	private static final long serialVersionUID = 1L;
@@ -22,6 +24,14 @@ public class GenericPerson extends AbstractPersistable<Long> {
 	private PersonExtension extension;
 	/* Поля класса PersonExtension будут хранится в той-же самой таблице что и сущность GenericPerson */
 	
+	@ElementCollection(fetch=FetchType.EAGER)
+	private Set<String> aliase = new TreeSet<>();
+
+	/* Данные из коллекции хранятся в отдельной таблице, имя которой мы указали в аннотации */
+	@ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(name = "Additional_Field")
+	private Set<AdditionalField> additionalFields = new HashSet<>();
+
 	public GenericPerson(){
 	}
 
@@ -41,6 +51,22 @@ public class GenericPerson extends AbstractPersistable<Long> {
 
 	public PersonExtension getExtension() {
 		return extension;
+	}
+	
+	public void addAliase(String alias){
+		this.aliase.add(alias);
+	}
+
+	public Set<String> getAliases() {
+		return aliase;
+	}
+	
+	public Set<AdditionalField> getAdditionalFields() {
+		return additionalFields;
+	}
+
+	public void addAdditionalField(AdditionalField additionalField) {
+		this.additionalFields.add(additionalField);
 	}
 
 	@Override
