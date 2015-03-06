@@ -1,5 +1,7 @@
 package lv.nixx.poc.spring.data;
 
+import static org.junit.Assert.*;
+
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
@@ -49,7 +51,22 @@ public class EmbedableClassTest {
 		for (GenericPerson person : findAll) {
 			System.out.println(person);
 		}
+		
+		Long p1Id = p1.getId();
+		Long p2Id = p2.getId();
+		Long p3Id = p3.getId();
+		
+		p1 = repository.findOne(p1Id);
+		assertNotNull(p1);
+		assertNotNull(p1.getExtension());
 
+		p2 = repository.findOne(p2Id);
+		assertNotNull(p2);
+		assertNotNull(p2.getExtension());
+
+		p3 = repository.findOne(p3Id);
+		assertNotNull(p3);
+		assertNull(p3.getExtension());
 
 	}
 
