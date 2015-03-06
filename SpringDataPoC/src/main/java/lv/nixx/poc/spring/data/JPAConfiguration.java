@@ -29,7 +29,7 @@ public class JPAConfiguration {
 		HibernateJpaVendorAdapter jpaAdapter = new HibernateJpaVendorAdapter();
 		jpaAdapter.setDatabasePlatform("org.hibernate.dialect.DerbyTenSixDialect");
 		jpaAdapter.setGenerateDdl(true);
-		// jpaAdapter.setShowSql(true);
+		jpaAdapter.setShowSql(true);
 
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 		factory.setDataSource(dataSource());

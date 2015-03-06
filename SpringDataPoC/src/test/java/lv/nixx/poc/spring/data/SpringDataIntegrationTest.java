@@ -41,6 +41,7 @@ public class SpringDataIntegrationTest {
 	
 	@Before
 	public void prepateTables(){
+		adressRepository.deleteAll();
 		customerRepository.deleteAll();
 		typeRepository.deleteAll();
 		manager.flush();
@@ -173,6 +174,19 @@ public class SpringDataIntegrationTest {
 		assertEquals("Nikolas's additional data", c3Extension.getAdditionalData());
 		assertEquals(2, adress.size());
 		
+		// Удалим адресс и Extension у клиента
+		expCustomer3.getAdress().clear();
+		expCustomer3.setExtension(null);
+		manager.flush();
+
+		// Проверим, что он действительно удалился
+		expCustomer3 = customerRepository.findOne(c3ID);
+		assertNotNull(expCustomer3);
+		adress = expCustomer3.getAdress();
+
+		assertNotNull(adress);
+		assertTrue(adress.isEmpty());
+	 	assertNull(expCustomer3.getExtension());
 	}
 
 	private void printCustomers() {

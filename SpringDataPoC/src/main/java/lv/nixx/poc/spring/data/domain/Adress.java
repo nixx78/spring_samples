@@ -11,7 +11,6 @@ public class Adress {
 	private Long id;
 
 	@OneToOne
-	@JoinColumn(name="customer_id")
 	private Customer customer;
 
 	private String line1;

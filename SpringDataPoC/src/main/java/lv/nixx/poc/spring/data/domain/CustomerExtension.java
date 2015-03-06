@@ -10,7 +10,7 @@ public class CustomerExtension {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Customer.class)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, targetEntity = Customer.class)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 

@@ -18,10 +18,13 @@ public class Customer {
     @ManyToOne
     private CustomerType type;
     
-    @OneToOne(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy="customer", targetEntity=CustomerExtension.class)
+    
+    @OneToOne(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy="customer", targetEntity=CustomerExtension.class, orphanRemoval=true)
     private CustomerExtension extension;
     
-    @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+    // Очень важно, устанавливать параметер orphanRemoval=true, без него, удаления происходит только в одной таблице CUSTOMER_ADDRESS, 
+    // в таблице ADRESS записи остаются.
+    @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
     private Set<Adress> adress = new HashSet<>();
 
     protected Customer() {
@@ -43,7 +46,9 @@ public class Customer {
 
 	public void setExtension(CustomerExtension extension) {
 		this.extension = extension;
-		this.extension.setCustomer(this);
+		if (extension != null) {
+			this.extension.setCustomer(this);
+		}
 	}
 	
 	public void addAdress(Adress adress){
