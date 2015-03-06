@@ -27,7 +27,9 @@ public class GenericPerson extends AbstractPersistable<Long> {
 	@ElementCollection(fetch=FetchType.EAGER)
 	private Set<String> aliase = new TreeSet<>();
 
-	/* Данные из коллекции хранятся в отдельной таблице, имя которой мы указали в аннотации */
+	/* Данные из коллекции хранятся в отдельной таблице, имя которой мы указали в аннотации, обязательное условие, для класса AdditionalField
+	 * должна стоять аннотация @@Embeddable
+	 */
 	@ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(name = "Additional_Field")
 	private Set<AdditionalField> additionalFields = new HashSet<>();
