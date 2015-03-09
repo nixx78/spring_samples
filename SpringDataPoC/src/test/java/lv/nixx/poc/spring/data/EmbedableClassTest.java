@@ -2,12 +2,16 @@ package lv.nixx.poc.spring.data;
 
 import static org.junit.Assert.*;
 
+import java.util.Map;
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import lv.nixx.poc.spring.data.domain.AdditionalField;
-import lv.nixx.poc.spring.data.domain.GenericPerson;
+import lv.nixx.poc.spring.data.domain.PersonAdditionalField;
+import lv.nixx.poc.spring.data.domain.Person;
 import lv.nixx.poc.spring.data.domain.PersonExtension;
+import lv.nixx.poc.spring.data.domain.Task;
 import lv.nixx.poc.spring.data.repository.PersonRepository;
 
 import org.junit.Before;
@@ -25,63 +29,89 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 public class EmbedableClassTest {
 
 	@Autowired
-	private PersonRepository repository;
-	
+	private PersonRepository personRepository;
+
 	@Autowired
 	private EntityManager entityManager;
 
 	@Before
-	public void init(){
-		repository.deleteAll();
+	public void init() {
+		personRepository.deleteAll();
 		entityManager.flush();
 	}
-	
+
 	@Test
 	public void createPersonsWithExtension() {
-		GenericPerson p1 = new GenericPerson("Ivan", "Ivanov", new PersonExtension("line1", "line2"));
+		Person p1 = new Person("Ivan", "Ivanov", new PersonExtension("1_line1", "1_line2"));
 		p1.addAliase("alias1");
 		p1.addAliase("alias2");
 		p1.addAliase("alias3");
+		p1.addAdditionalField(new PersonAdditionalField("p1_f11", "p1_f12"));
+		p1.addAdditionalField(new PersonAdditionalField("p1_f21", "p1_f22"));
 		
-		GenericPerson p2 = new GenericPerson("John", "Smith",  new PersonExtension("line1", "line2"));
-		p2.addAdditionalField(new AdditionalField("p2_f11", "p2_f12"));
-		p2.addAdditionalField(new AdditionalField("p2_f21", "p2_f22"));
-		p2.addAdditionalField(new AdditionalField("p2_f31", "p2_f32"));
+		Person p2 = new Person("John", "Smith", new PersonExtension("2_line1", "2_line2"));
+		p2.addAdditionalField(new PersonAdditionalField("p2_f11", "p2_f12"));
+		p2.addAdditionalField(new PersonAdditionalField("p2_f21", "p2_f22"));
+		p2.addAdditionalField(new PersonAdditionalField("p2_f31", "p2_f32"));
+		p2.addTask(new Task("tID1", "projectA", " task1"));
+		p2.addTask(new Task("tID2", "projectB", " task2"));
 		
-		GenericPerson p3 = new GenericPerson("Anna", "Smith", null);
-		p3.addAdditionalField(new AdditionalField("p3_f11", "p3_f12"));
-		p3.addAdditionalField(new AdditionalField("p3_f21", "p3_f22"));
-		
-		repository.save(p1);
-		repository.save(p2);
-		repository.save(p3);
-		
+		Person p3 = new Person("Anna", "Smith", null);
+		p3.addAdditionalField(new PersonAdditionalField("p3_f11", "p3_f12"));
+		p3.addAdditionalField(new PersonAdditionalField("p3_f21", "p3_f22"));
+
+		p3.addTask(new Task("tID1", "projectA", " task1"));
+		p3.addTask(new Task("tID2", "projectB", " task2"));
+		p3.addTask(new Task("tID3", "projectB", " task3"));
+		p3.addTask(new Task("tID4", "projectA", " task4"));
+
+		personRepository.save(p1);
+		personRepository.save(p2);
+		Long p2Id = p2.getId();
+		personRepository.save(p3);
+
+		entityManager.flush();
+
+		personRepository.delete(p2);
 		entityManager.flush();
 		
-		Iterable<GenericPerson> findAll = repository.findAll();
-		for (GenericPerson person : findAll) {
+		Iterable<Person> findAll = personRepository.findAll();
+		for (Person person : findAll) {
 			System.out.println(person);
 			System.out.println("\t\t Aliases:" + person.getAliases());
-			System.out.println("\t\t Fields:" +  person.getAdditionalFields());
+			System.out.println("\t\t Fields:" + person.getAdditionalFields());
 		}
-		
+
 		Long p1Id = p1.getId();
-		Long p2Id = p2.getId();
 		Long p3Id = p3.getId();
-		
-		p1 = repository.findOne(p1Id);
+
+		p1 = personRepository.findOne(p1Id);
 		assertNotNull(p1);
 		assertNotNull(p1.getExtension());
+		Set<PersonAdditionalField> additionalFields = p1.getAdditionalFields();
+		assertNotNull(additionalFields);
+		assertEquals(2, additionalFields.size());
+		
+		p2 = personRepository.findOne(p2Id);
+		assertNull(p2);
 
-		p2 = repository.findOne(p2Id);
-		assertNotNull(p2);
-		assertNotNull(p2.getExtension());
-
-		p3 = repository.findOne(p3Id);
+		p3 = personRepository.findOne(p3Id);
 		assertNotNull(p3);
 		assertNull(p3.getExtension());
+
+		// check tasks
+		Map<String, Task> tasks = p3.getTasks();
+		assertNotNull(tasks);
+		assertEquals(4, tasks.size());
 		
-		repository.delete(p3Id);
+		assertNotNull(tasks.get("tID1"));
+		assertNotNull(tasks.get("tID2"));
+		assertNotNull(tasks.get("tID3"));
+		assertNotNull(tasks.get("tID4"));
+		
+		for (Task t: tasks.values()){
+			System.out.println(t);
+		}
 	}
 
 }

@@ -1,17 +1,19 @@
 package lv.nixx.poc.spring.data.domain;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Table;
 
 @Embeddable
-public class AdditionalField {
+@Table(name = "PersonAdditionalField")
+public class PersonAdditionalField {
 
 	private String field1;
 	private String field2;
-	
-	public AdditionalField(){
+
+	public PersonAdditionalField() {
 	}
 
-	public AdditionalField(String field1, String field2) {
+	public PersonAdditionalField(String field1, String field2) {
 		this.field1 = field1;
 		this.field2 = field2;
 	}
@@ -26,7 +28,8 @@ public class AdditionalField {
 
 	@Override
 	public String toString() {
-		return "AdditionalFields [field1=" + field1 + ", field2=" + field2	+ "]";
+		return "AdditionalFields [field1=" + field1 + ", field2=" + field2
+				+ "]";
 	}
 
 }

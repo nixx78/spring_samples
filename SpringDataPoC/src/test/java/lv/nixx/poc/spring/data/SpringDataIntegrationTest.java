@@ -2,6 +2,7 @@ package lv.nixx.poc.spring.data;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -46,6 +48,15 @@ public class SpringDataIntegrationTest {
 		typeRepository.deleteAll();
 		manager.flush();
 	}
+	
+//	@Test
+//	public void t(){
+//		System.out.println("-- START !!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//		for (Customer customer : customerRepository.findAllCustomers()) {
+//			System.out.println(customer);
+//		}
+//		System.out.println("-- END !!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//	}
 
 	@Test
 	public void testCustomerTypeMultiplySave() {

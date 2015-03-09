@@ -3,7 +3,7 @@ package lv.nixx.poc.spring.data.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Extension")
+@Table(name="CustomerExtension")
 public class CustomerExtension {
 
 	@Id
