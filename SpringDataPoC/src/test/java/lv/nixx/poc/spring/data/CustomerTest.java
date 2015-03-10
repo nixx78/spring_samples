@@ -2,7 +2,6 @@ package lv.nixx.poc.spring.data;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -15,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -24,7 +22,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @ContextConfiguration(classes = JPAConfiguration.class)
 @Transactional
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
-public class SpringDataIntegrationTest {
+public class CustomerTest {
 
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -39,24 +37,15 @@ public class SpringDataIntegrationTest {
 	private CustomerDAO simpleDao;
 
 	@Autowired
-	private EntityManager manager;
+	private EntityManager entityManager;
 	
 	@Before
 	public void prepateTables(){
 		adressRepository.deleteAll();
 		customerRepository.deleteAll();
 		typeRepository.deleteAll();
-		manager.flush();
+		entityManager.flush();
 	}
-	
-//	@Test
-//	public void t(){
-//		System.out.println("-- START !!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//		for (Customer customer : customerRepository.findAllCustomers()) {
-//			System.out.println(customer);
-//		}
-//		System.out.println("-- END !!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//	}
 
 	@Test
 	public void testCustomerTypeMultiplySave() {
@@ -70,15 +59,15 @@ public class SpringDataIntegrationTest {
 		final String testId = "testId";
 		final CustomerType testType = new CustomerType(testId, "TestType");
 		typeRepository.save(testType);
-		manager.flush();
+		entityManager.flush();
 
 		testType.setDescription("New TestType desciption");
 		typeRepository.save(testType);
-		manager.flush();
+		entityManager.flush();
 		
 		final CustomerType test1Type = new CustomerType(testId, "Last TestType description");
 		typeRepository.save(test1Type);
-		manager.flush();
+		entityManager.flush();
 		
 		CustomerType t = typeRepository.findOne(testId);
 		assertNotNull(t);
@@ -109,18 +98,18 @@ public class SpringDataIntegrationTest {
 		 */
 		
 		typeRepository.save(simpleCustomer);
-		manager.flush();
+		entityManager.flush();
 		
 		Customer c1 = new Customer("Jack", "Bauer", simpleCustomer);
 		simpleDao.save(c1);
-		manager.flush();
+		entityManager.flush();
 
 		Long c1ID = c1.getId();
 		assertNotNull(c1ID);
 
 		Customer c2 = new Customer("Nikolas", "Cage", simpleCustomer);
 		simpleDao.save(c2);
-		manager.flush();
+		entityManager.flush();
 		Long c2ID = c2.getId();
 		assertNotNull(c2ID);
 		
@@ -143,7 +132,7 @@ public class SpringDataIntegrationTest {
 		final CustomerType vipCustomer = new CustomerType("vip","Vip Customer");
 		typeRepository.save(simpleCustomer);
 		typeRepository.save(vipCustomer);
-		manager.flush();
+		entityManager.flush();
 		
 		// save a couple of customers
 		Customer c1 = new Customer("Jack", "Bauer", simpleCustomer);
@@ -157,7 +146,7 @@ public class SpringDataIntegrationTest {
 		simpleDao.save(c1);
 		simpleDao.save(c2);
 		simpleDao.save(c3);
-		manager.flush();
+		entityManager.flush();
 		
 		printCustomers();
 		Long c1ID = c1.getId();
@@ -188,7 +177,7 @@ public class SpringDataIntegrationTest {
 		// Удалим адресс и Extension у клиента
 		expCustomer3.getAdress().clear();
 		expCustomer3.setExtension(null);
-		manager.flush();
+		entityManager.flush();
 
 		// Проверим, что он действительно удалился
 		expCustomer3 = customerRepository.findOne(c3ID);
@@ -203,7 +192,8 @@ public class SpringDataIntegrationTest {
 	private void printCustomers() {
 		System.out.println("Customers found with findAll():");
 		System.out.println("-------------------------------");
-		for (Customer customer : customerRepository.findAll()) {
+		//for (Customer customer : customerRepository.findAll()) {
+		for (Customer customer : customerRepository.findAllCustomers()) {
 			System.out.println(customer);
 		}
 	}

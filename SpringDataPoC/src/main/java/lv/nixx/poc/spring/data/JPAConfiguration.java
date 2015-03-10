@@ -39,7 +39,7 @@ public class JPAConfiguration {
 
 		return factory.getObject();
 	}
-
+	
 	@Bean
 	public JpaTransactionManager transactionManager() {
 		JpaTransactionManager txManager = new JpaTransactionManager();

@@ -36,6 +36,13 @@ public class Customer {
         this.type = customerType;
     }
 
+    public Customer(String firstName, String lastName, CustomerType customerType, CustomerExtension extension) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.type = customerType;
+        setExtension(extension);
+    }
+
 	public CustomerExtension getExtension() {
 		return extension;
 	}
