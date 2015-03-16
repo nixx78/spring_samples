@@ -27,8 +27,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 public class CustomerPerformanceTest {
 	
-	// TODO Implement integration performance tests, findAll() v.s findAllCustomers()
-
 	@Autowired
 	private CustomerRepository customerRepository;
 	@Autowired
@@ -45,7 +43,6 @@ public class CustomerPerformanceTest {
 	private EntityManager entityManager;
 	
 	@Test
-	@Ignore
 	public void fillCustomerData() {
 		// Clean tables
 		adressRepository.deleteAll();
@@ -69,7 +66,6 @@ public class CustomerPerformanceTest {
 	}
 	
 	@Test
-	@Ignore
 	public void findAllDataUsingLeftJoin() {
 		final long startTime = System.currentTimeMillis();
 		int recordCount = 0;

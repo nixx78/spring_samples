@@ -32,11 +32,12 @@ public class FindAllPerfomanceTest {
 	@Test
 	@Ignore
 	public void fillData() {
+		final int recordCount = 10000;
+
 		mainDataRepository.deleteAll();
 		entityManager.flush();
 
 		final long startTime = System.currentTimeMillis(); 
-		final int recordCount = 10000;
 		for (int i = 0; i < recordCount; i++) {
 			mainDataRepository.save(new MainData("mainData" + i, new AdditionalData("additionalData" + i)));
 		}
@@ -70,5 +71,6 @@ public class FindAllPerfomanceTest {
 		}
 		System.out.println("[" + recordCount + "] records retrieved by [" + (System.currentTimeMillis()-startTime) + "] milleseconds using findAll()");
 	}
+
 
 }

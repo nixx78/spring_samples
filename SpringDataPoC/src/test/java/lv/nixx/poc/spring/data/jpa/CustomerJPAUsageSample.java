@@ -1,4 +1,4 @@
-package lv.nixx.poc.jpa;
+package lv.nixx.poc.spring.data.jpa;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import lv.nixx.poc.spring.data.domain.CustomerType;
 
 import org.junit.Test;
 
-public class JPAUsageSample {
+public class CustomerJPAUsageSample {
 
 	@Test
 	public void testShouldSaveOneCustomerType() {
@@ -66,12 +66,6 @@ public class JPAUsageSample {
 	    for(Customer c: resultList){
 	    	System.out.println(c);
 	    }
-	    
-		
-//		  CriteriaQuery<Country> q = cb.createQuery(Country.class);
-//		  Root<Country> c = q.from(Country.class);
-//		  Join<Country> p = c.join("capital", JoinType.LEFT);
-//		  q.multiselect(c, p.get("name"));
 	}
 
 }

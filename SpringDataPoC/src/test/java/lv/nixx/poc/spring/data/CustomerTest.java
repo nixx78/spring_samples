@@ -2,6 +2,7 @@ package lv.nixx.poc.spring.data;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -124,7 +125,6 @@ public class CustomerTest {
 		printCustomers();
 	}
 	
-
 	@Test
 	public void testMultiplyCustomerWithDifferentTypeSave() {
 
@@ -187,6 +187,24 @@ public class CustomerTest {
 		assertNotNull(adress);
 		assertTrue(adress.isEmpty());
 	 	assertNull(expCustomer3.getExtension());
+	 	
+	}
+
+	@Test
+	public void testShouldRetrieveAndGetUsingNamedQuery(){
+		
+		final CustomerType simpleCustomer = new CustomerType("simple","Simple Customer");
+		typeRepository.save(simpleCustomer);
+		entityManager.flush();
+		
+		Customer c1 = new Customer("Jack", "Bauer", simpleCustomer);
+		Customer c2 = new Customer("Nikolas", "Cage", simpleCustomer);
+		simpleDao.save(c1);
+		simpleDao.save(c2);
+		
+		List<Customer> result = customerRepository.selectAllCustomersUsingNamedQuery();
+		assertEquals(2, result.size());
+		
 	}
 
 	private void printCustomers() {

@@ -1,4 +1,4 @@
-package lv.nixx.poc.jdbc;
+package lv.nixx.poc.spring.data.jdbc;
 
 import static org.junit.Assert.*;
 
@@ -28,7 +28,11 @@ public class SimpleJDBCSample {
 		try {
 			
 			// Удалим (на всякий случай) а затем создадим таблицу
-			statement.execute("Drop table Persons");
+			try {
+				statement.execute("Drop table Persons");
+			} catch (SQLException e){
+				System.err.println(e); // Это абсолютно нормальная ситуация, если таблицы нет, ошибку можно игнорировать
+			} 
 			statement.execute("Create table Persons (Id integer, Name varchar(25), Surname varchar(25), State varchar(25) )");
 			
 			// Поместим выражения в батч, затем выполним его

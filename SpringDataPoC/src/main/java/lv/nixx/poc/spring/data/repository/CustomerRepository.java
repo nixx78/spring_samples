@@ -14,4 +14,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 	
 	@Query("Select c from Customer c left join fetch c.extension left join fetch c.type left join fetch c.adress")
 	public List<Customer> findAllCustomers();
+	
+	@Query(name="Customer.selectAllCustomersQuery")
+	public List<Customer> selectAllCustomersUsingNamedQuery();
 }

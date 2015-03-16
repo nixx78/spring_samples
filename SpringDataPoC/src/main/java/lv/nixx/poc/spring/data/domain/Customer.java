@@ -6,13 +6,17 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="Customer")
+@NamedQuery(name="Customer.selectAllCustomersQuery", query="Select c from Customer c")
 public class Customer {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     
+    @Column(name="firstName")
     private String firstName;
+    
+    @Column(name="lastName")
     private String lastName;
 
     @ManyToOne

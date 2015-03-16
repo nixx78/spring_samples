@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="MainData")
+@NamedQuery(name="MainData.FindAll",query = "Select m from MainData m")
 public class MainData {
 	
 	@Id
@@ -11,7 +12,7 @@ public class MainData {
 	private Long id;
 	private String mainData;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy="mainData", targetEntity=AdditionalData.class, orphanRemoval=true)
+    @OneToOne(fetch = FetchType.EAGER, cascade={CascadeType.ALL}, mappedBy="mainData", targetEntity=AdditionalData.class, orphanRemoval=true)
     private AdditionalData additionalData;
 	
 	public MainData(){
