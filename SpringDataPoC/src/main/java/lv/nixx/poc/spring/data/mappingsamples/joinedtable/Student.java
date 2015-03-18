@@ -2,8 +2,6 @@ package lv.nixx.poc.spring.data.mappingsamples.joinedtable;
 
 import javax.persistence.*;
 
-import lv.nixx.poc.spring.data.mappingsamples.SimpleClient;
-
 @Entity(name = "Student.JS")
 @Table(schema = "joined_table_sample", name="Student")
 @DiscriminatorValue("StudentType.JS")

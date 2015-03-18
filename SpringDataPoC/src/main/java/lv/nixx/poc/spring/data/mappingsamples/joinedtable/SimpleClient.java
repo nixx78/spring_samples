@@ -1,8 +1,6 @@
-package lv.nixx.poc.spring.data.mappingsamples;
+package lv.nixx.poc.spring.data.mappingsamples.joinedtable;
 
 import javax.persistence.MappedSuperclass;
-
-import lv.nixx.poc.spring.data.mappingsamples.singletable.GenericBankClient;
 
 @MappedSuperclass
 public abstract class SimpleClient extends GenericBankClient {

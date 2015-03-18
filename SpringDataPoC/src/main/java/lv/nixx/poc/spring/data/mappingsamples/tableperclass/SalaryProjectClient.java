@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 
 import javax.persistence.*;
 
-import lv.nixx.poc.spring.data.mappingsamples.SimpleClient;
-
 @Entity(name = "SalaryProjectClient.TPC")
 @Table(schema = "table_per_class_sample", name = "SalaryProjectClient")
 public class SalaryProjectClient extends SimpleClient {

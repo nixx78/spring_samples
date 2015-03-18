@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 
 import javax.persistence.*;
 
-import lv.nixx.poc.spring.data.mappingsamples.SimpleClient;
-
 @Entity(name = "SalaryProjectClient.JS")
 @Table(schema = "joined_table_sample", name = "SalaryProjectClient")
 @DiscriminatorValue("SalaryProjectClientType.JS")

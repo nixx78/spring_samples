@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 
 import javax.persistence.*;
 
-import lv.nixx.poc.spring.data.mappingsamples.SimpleClient;
-
 @Entity(name="SalaryProjectClient.ST")
 @Table(schema="single_table_sample", name = "BonusedClient")
 @DiscriminatorValue("SalaryProjectClient")

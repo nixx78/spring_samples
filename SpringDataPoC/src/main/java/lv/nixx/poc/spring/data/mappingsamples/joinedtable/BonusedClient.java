@@ -2,8 +2,6 @@ package lv.nixx.poc.spring.data.mappingsamples.joinedtable;
 
 import javax.persistence.*;
 
-import lv.nixx.poc.spring.data.mappingsamples.VipClient;
-
 @Entity(name = "BonusedClient.JS")
 @Table(schema = "joined_table_sample", name = "BonusedClient")
 @DiscriminatorValue("BonusedClientType.JS")

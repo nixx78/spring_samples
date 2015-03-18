@@ -1,10 +1,36 @@
-<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-  version="2.0">
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+  version="2.1">
   <persistence-unit name="test.unit">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <!-- <class>Test</class> -->
+    <class>lv.nixx.poc.spring.data.domain.AdditionalData</class>
+    <class>lv.nixx.poc.spring.data.domain.Adress</class>
+    <class>lv.nixx.poc.spring.data.domain.Customer</class>
+    <class>lv.nixx.poc.spring.data.domain.CustomerExtension</class>
+    <class>lv.nixx.poc.spring.data.domain.CustomerType</class>
+    <class>lv.nixx.poc.spring.data.domain.MainData</class>
+    <class>lv.nixx.poc.spring.data.domain.Person</class>
+    <class>lv.nixx.poc.spring.data.domain.PersonAdditionalField</class>
+    <class>lv.nixx.poc.spring.data.domain.PersonExtension</class>
+    <class>lv.nixx.poc.spring.data.domain.Task</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.SimpleClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.VipClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.joinedtable.BonusedClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.joinedtable.GenericBankClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.joinedtable.SalaryProjectClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.joinedtable.Student</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.joinedtable.VisaGoldClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.singletable.BonusedClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.singletable.GenericBankClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.singletable.SalaryProjectClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.singletable.Student</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.singletable.VisaGoldClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.tableperclass.BonusedClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.tableperclass.GenericBankClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.tableperclass.SalaryProjectClient</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.tableperclass.Student</class>
+    <class>lv.nixx.poc.spring.data.mappingsamples.tableperclass.VisaGoldClient</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
       <!--
@@ -12,9 +38,8 @@
         append ;create=true to end of the jdbc url
       -->
       <property name="javax.persistence.jdbc.url" value="jdbc:derby:derbyDB;create=true"/>
-      <property name="javax.persistence.jdbc.user" value=""/>
+      <property name="javax.persistence.jdbc.user" value="admin"/>
       <property name="javax.persistence.jdbc.password" value=""/>
-      <property name="hibernate.hbm2ddl.auto" value="create"/>
       <!--  
         if you just created the database, maybe
         you want hibernate to create a schema for you

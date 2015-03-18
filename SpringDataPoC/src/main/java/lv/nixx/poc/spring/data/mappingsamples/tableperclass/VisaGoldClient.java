@@ -5,8 +5,6 @@ import javax.persistence.Table;
 
 import java.math.*;
 
-import lv.nixx.poc.spring.data.mappingsamples.VipClient;
-
 @Entity(name = "VisaGoldClient.TPC")
 @Table(schema = "table_per_class_sample", name = "VisaGoldClient")
 public class VisaGoldClient extends VipClient {

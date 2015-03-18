@@ -4,8 +4,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import lv.nixx.poc.spring.data.mappingsamples.SimpleClient;
-
 @Entity(name = "Student.ST")
 @Table(schema = "single_table_sample", name = "Student")
 @DiscriminatorValue("StudentType")

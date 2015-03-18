@@ -3,8 +3,6 @@ package lv.nixx.poc.spring.data.mappingsamples.tableperclass;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import lv.nixx.poc.spring.data.mappingsamples.SimpleClient;
-
 @Entity(name = "Student.TPC")
 @Table(schema = "table_per_class_sample", name="Student")
 public class Student extends SimpleClient {

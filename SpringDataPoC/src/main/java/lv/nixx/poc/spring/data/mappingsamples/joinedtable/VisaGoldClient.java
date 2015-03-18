@@ -4,8 +4,6 @@ import javax.persistence.*;
 
 import java.math.*;
 
-import lv.nixx.poc.spring.data.mappingsamples.VipClient;
-
 @Entity(name = "VisaGoldClient.JS")
 @Table(schema = "joined_table_sample", name = "VisaGoldClient")
 @DiscriminatorValue("VisaGoldClientType.JS")

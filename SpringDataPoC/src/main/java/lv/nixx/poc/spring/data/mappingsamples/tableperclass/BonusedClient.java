@@ -2,8 +2,6 @@ package lv.nixx.poc.spring.data.mappingsamples.tableperclass;
 
 import javax.persistence.*;
 
-import lv.nixx.poc.spring.data.mappingsamples.VipClient;
-
 @Entity(name = "BonusedClient.TPC")
 @Table(schema = "table_per_class_sample", name = "BonusedClient")
 public class BonusedClient extends VipClient {

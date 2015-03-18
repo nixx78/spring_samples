@@ -2,8 +2,6 @@ package lv.nixx.poc.spring.data.mappingsamples.singletable;
 
 import javax.persistence.*;
 
-import lv.nixx.poc.spring.data.mappingsamples.VipClient;
-
 @Entity(name="BonusedClient.ST")
 @Table(schema="single_table_sample", name = "BonusedClient")
 @DiscriminatorValue("BonusedClientType")
