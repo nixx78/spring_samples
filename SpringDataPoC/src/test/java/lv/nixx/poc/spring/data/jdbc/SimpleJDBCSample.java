@@ -24,8 +24,7 @@ public class SimpleJDBCSample {
 //		Connection connection = dataSource.getConnection();
 //		Statement statement = connection.createStatement();
 
-		Statement statement = connection.createStatement();
-		try {
+		try (Statement statement = connection.createStatement()) {
 			
 			// Удалим (на всякий случай) а затем создадим таблицу
 			try {
@@ -52,9 +51,6 @@ public class SimpleJDBCSample {
 			}
 			connection.rollback();
 		} finally {
-			if (statement != null) {
-				statement.close();
-			}
 
 			if (connection != null) {
 				connection.close();

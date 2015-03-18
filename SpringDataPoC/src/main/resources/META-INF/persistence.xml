@@ -14,9 +14,7 @@
       <property name="javax.persistence.jdbc.url" value="jdbc:derby:derbyDB;create=true"/>
       <property name="javax.persistence.jdbc.user" value=""/>
       <property name="javax.persistence.jdbc.password" value=""/>
-      <!--  
       <property name="hibernate.hbm2ddl.auto" value="create"/>
-       -->
       <!--  
         if you just created the database, maybe
         you want hibernate to create a schema for you
