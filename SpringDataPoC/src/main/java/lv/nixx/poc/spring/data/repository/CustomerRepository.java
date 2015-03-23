@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
 	public List<Customer> findByLastName(String lastName);
 	
-	@Query("Select c from Customer c left join fetch c.extension left join fetch c.type left join fetch c.adress")
+	@Query("Select distinct c from Customer c left join fetch c.extension left join fetch c.type left join fetch c.adress")
 	public List<Customer> findAllCustomers();
 	
 	@Query(name="Customer.selectAllCustomersQuery")

@@ -14,7 +14,7 @@
       <pattern>${PATTERN}</pattern>
     </encoder>
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-          <fileNamePattern>${LOG_DIR}/iSwapEvspJava.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+          <fileNamePattern>${LOG_DIR}//sample.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
         <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
             <maxFileSize>100MB</maxFileSize>
           </timeBasedFileNamingAndTriggeringPolicy>

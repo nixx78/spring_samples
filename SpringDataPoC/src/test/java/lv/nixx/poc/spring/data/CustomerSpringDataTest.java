@@ -23,7 +23,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @ContextConfiguration(classes = JPAConfiguration.class)
 @Transactional
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
-public class CustomerTest {
+public class CustomerSpringDataTest {
 
 	@Autowired
 	private CustomerRepository customerRepository;

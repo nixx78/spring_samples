@@ -23,10 +23,15 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
 @Table(name="Person")
+@Cacheable(true)
 public class Person extends AbstractPersistable<Long> {
 
 	private static final long serialVersionUID = 1L;
 
+	@Version
+    @GeneratedValue(strategy=GenerationType.AUTO)
+	private int version;
+	
 	private String name;
 	private String surname;
 
@@ -75,6 +80,10 @@ public class Person extends AbstractPersistable<Long> {
 		this.surname = surname;
 		this.extension = ext;
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getName() {
 		return name;
@@ -114,10 +123,18 @@ public class Person extends AbstractPersistable<Long> {
 		}
 		return tasks;
 	}
+	
+	public int getVersion() {
+		return version;
+	}
 
 	@Override
 	public String toString() {
-		return "GenericPerson [name=" + name + ", surname=" + surname + ", extension=" + extension + "]";
+		return "Person [version=" + version + ", name=" + name + ", surname="
+				+ surname + ", extension=" + extension + ", aliase=" + aliase
+				+ ", additionalFields=" + additionalFields + ", tasks=" + tasks
+				+ ", getId()=" + getId() + "]";
 	}
 
+	
 }

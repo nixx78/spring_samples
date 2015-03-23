@@ -4,12 +4,10 @@
   version="2.1">
   <persistence-unit name="test.unit">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>lv.nixx.poc.spring.data.domain.AdditionalData</class>
     <class>lv.nixx.poc.spring.data.domain.Adress</class>
     <class>lv.nixx.poc.spring.data.domain.Customer</class>
     <class>lv.nixx.poc.spring.data.domain.CustomerExtension</class>
     <class>lv.nixx.poc.spring.data.domain.CustomerType</class>
-    <class>lv.nixx.poc.spring.data.domain.MainData</class>
     <class>lv.nixx.poc.spring.data.domain.Person</class>
     <class>lv.nixx.poc.spring.data.domain.PersonAdditionalField</class>
     <class>lv.nixx.poc.spring.data.domain.PersonExtension</class>
@@ -31,15 +29,34 @@
     <class>lv.nixx.poc.spring.data.mappingsamples.tableperclass.SalaryProjectClient</class>
     <class>lv.nixx.poc.spring.data.mappingsamples.tableperclass.Student</class>
     <class>lv.nixx.poc.spring.data.mappingsamples.tableperclass.VisaGoldClient</class>
+    
+    <shared-cache-mode>ALL</shared-cache-mode>
     <properties>
-      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+    
       <!--
-        if you don't have a database already created
-        append ;create=true to end of the jdbc url
+        if you don't have a database already created append ;create=true to end of the jdbc url
       -->
+ 
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby:derbyDB;create=true"/>
-      <property name="javax.persistence.jdbc.user" value="admin"/>
+      <property name="javax.persistence.jdbc.user" value=""/>
       <property name="javax.persistence.jdbc.password" value=""/>
+
+      <!--  Settings for network Derby on standart port -->
+      <!-- 
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/derbyDB;create=true"/>
+      <property name="javax.persistence.jdbc.user" value=""/>
+      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+ 	   -->
+ 		
+      <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/>
+	  
+	  <property name="hibernate.cache.use_second_level_cache" value="true" />
+	  <property name="hibernate.cache.use_query_cache" value="true"/>
+	  <property name="hibernate.cache.provider_class" value="org.hibernate.cache.EhCacheProvider" />
+	  <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory" />
+ 	  
       <!--  
         if you just created the database, maybe
         you want hibernate to create a schema for you

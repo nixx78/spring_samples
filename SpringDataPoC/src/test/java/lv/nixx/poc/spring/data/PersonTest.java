@@ -8,10 +8,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import lv.nixx.poc.spring.data.domain.PersonAdditionalField;
-import lv.nixx.poc.spring.data.domain.Person;
-import lv.nixx.poc.spring.data.domain.PersonExtension;
-import lv.nixx.poc.spring.data.domain.Task;
+import lv.nixx.poc.spring.data.domain.*;
 import lv.nixx.poc.spring.data.repository.PersonRepository;
 
 import org.junit.Before;
@@ -26,8 +23,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @ContextConfiguration(classes = JPAConfiguration.class)
 @Transactional
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
-public class EmbedableClassTest {
-
+public class PersonTest {
+	
 	@Autowired
 	private PersonRepository personRepository;
 
@@ -39,9 +36,10 @@ public class EmbedableClassTest {
 		personRepository.deleteAll();
 		entityManager.flush();
 	}
-
+	
 	@Test
-	public void createPersonsWithExtension() {
+	public void createPersonsWithRelatedObjects() {
+		
 		Person p1 = new Person("Ivan", "Ivanov", new PersonExtension("1_line1", "1_line2"));
 		p1.addAliase("alias1");
 		p1.addAliase("alias2");

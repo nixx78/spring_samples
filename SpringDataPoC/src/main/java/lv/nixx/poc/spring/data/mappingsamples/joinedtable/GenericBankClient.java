@@ -6,6 +6,12 @@ import javax.persistence.*;
 @Table(schema = "joined_table_sample",  name = "GenericClient")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "clientType")
+
+// TODO Investigate this approach
+// http://stackoverflow.com/questions/15080555/jpql-equivalent-of-sql-query-using-unions-and-selecting-constants
+//SELECT widget
+//FROM BaseWidget widget
+//WHERE TYPE(widget) in (WidgetB, WidgetC)
 public abstract class GenericBankClient {
 
 	@Id
