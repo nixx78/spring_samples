@@ -1,7 +1,5 @@
 package lv.nixx.poc.spring.data.jpa;
 
-import static org.junit.Assert.*;
-
 import javax.persistence.*;
 
 import lv.nixx.poc.spring.data.domain.Person;
@@ -9,7 +7,7 @@ import lv.nixx.poc.spring.data.domain.Person;
 import org.junit.*;
 
 
-public class PersonCasheUsageSample {
+public class L2CasheUsageSample {
 	
 	private EntityManagerFactory factory = Persistence.createEntityManagerFactory("test.unit");
 	

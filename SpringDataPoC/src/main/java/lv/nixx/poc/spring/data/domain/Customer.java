@@ -31,7 +31,7 @@ public class Customer {
     // в таблице ADRESS записи остаются.
     @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
     private Set<Adress> adress = new HashSet<>();
-
+    
     protected Customer() {
     }
 
@@ -54,6 +54,14 @@ public class Customer {
 	
 	public Long getId() {
 		return id;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public void setExtension(CustomerExtension extension) {

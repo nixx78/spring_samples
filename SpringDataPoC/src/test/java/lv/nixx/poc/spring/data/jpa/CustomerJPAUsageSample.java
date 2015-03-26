@@ -9,6 +9,7 @@ import javax.persistence.criteria.*;
 
 import lv.nixx.poc.spring.data.domain.*;
 
+import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,6 +29,18 @@ public class CustomerJPAUsageSample {
 		entityManager.createQuery("DELETE FROM Customer").executeUpdate();
 		transaction.commit();
 		entityManager.close();
+	}
+	
+	@Test
+	public void testShouldPersistCustomer(){
+		final EntityManager entityManager = factory.createEntityManager();
+	    final EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		Customer customer = new Customer("name1", "surname1", null);
+		entityManager.persist(customer);
+		
+		assertNotNull(customer.getId()); // проверяем, что ID сгенерировано для Customer
+		transaction.commit();
 	}
 	
 	@Test(expected = PersistenceException.class)

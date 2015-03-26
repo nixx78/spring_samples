@@ -15,7 +15,7 @@ public class CustomerDAO {
 	
 	@Autowired
 	private TypeRepository typeRepository;
-	
+
 	public Customer save(Customer customer){
 		return customerRepository.save(customer);
 	}
