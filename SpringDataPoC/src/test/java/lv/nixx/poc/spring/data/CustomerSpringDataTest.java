@@ -191,6 +191,35 @@ public class CustomerSpringDataTest {
 	}
 
 	@Test
+	public void testShouldAddCustomerWithAdress() {
+
+		final CustomerType simpleCustomer = new CustomerType("simple","Simple Customer");
+		typeRepository.save(simpleCustomer);
+
+		Customer c1 = new Customer("Nikolas", "Smith", simpleCustomer);
+		c1.setExtension(new CustomerExtension("Nikolas's additional data"));
+		c1.addAdress(new Adress("N1 line1", "N1 line2"));
+		c1.addAdress(new Adress("N2 line1", "N2 line2"));
+
+		simpleDao.save(c1);
+		entityManager.flush();
+		
+		printCustomers();
+		Long c3ID = c1.getId();
+		
+		Customer expCustomer3 = customerRepository.findOne(c3ID);
+		CustomerExtension c3Extension = expCustomer3.getExtension();
+		Set<Adress> adress = expCustomer3.getAdress();
+		
+		assertNotNull(expCustomer3);
+		assertNotNull(c3Extension);
+		assertNotNull(adress);
+		
+		assertEquals("Nikolas's additional data", c3Extension.getAdditionalData());
+		assertEquals(2, adress.size());
+	}
+
+	@Test
 	public void testShouldRetrieveAndGetUsingNamedQuery(){
 		
 		final CustomerType simpleCustomer = new CustomerType("simple","Simple Customer");

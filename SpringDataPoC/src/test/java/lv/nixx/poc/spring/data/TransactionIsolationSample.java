@@ -39,11 +39,11 @@ public class TransactionIsolationSample {
 		System.setProperty("derby.locks.waitTimeout","2");
 
 		personRepository.deleteAll();
-		entityManager.flush();
 	}
 	
 	@Test
-	@Transactional(isolation = Isolation.READ_UNCOMMITTED)
+	@Ignore
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void dirtyReadTransactionIsolation(){
 		Person pers = new Person("Name1" + new Date(), "Surname1", null);
 		personRepository.save(pers);
@@ -54,16 +54,9 @@ public class TransactionIsolationSample {
 		entityManager.clear();
 		
 		tryFindInAnotherTransaction(id);
-		
-//		Iterable<Person> findAll = personRepository.findAll();
-//		for(Person p: findAll){
-//			System.out.println(p);
-//		}
-		
 	}
 	
 	private void tryFindInAnotherTransaction(Long id) {
-		//EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("test.unit");
 		EntityManager em = entityManagerFactory.createEntityManager();
 		
 	    Query query = em.createQuery("SELECT p FROM Person p");

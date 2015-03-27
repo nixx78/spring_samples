@@ -9,7 +9,6 @@ import javax.persistence.criteria.*;
 
 import lv.nixx.poc.spring.data.domain.*;
 
-import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 
