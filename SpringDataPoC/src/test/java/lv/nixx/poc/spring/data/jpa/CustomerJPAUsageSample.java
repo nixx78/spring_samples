@@ -168,7 +168,7 @@ public class CustomerJPAUsageSample {
 		// Запрос можно задать также, при помощи criteriaBuilder который показан ниже...
 		final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Customer> criteriaQuery = criteriaBuilder.createQuery(Customer.class);
-		criteriaQuery.distinct(true);
+		criteriaQuery.distinct(true); // Если этот параметер не установить, то к каждой записи из adress будет присоединена запись - customer.
 		Root<Customer> customer = criteriaQuery.from(Customer.class);
 		customer.fetch("extension", JoinType.LEFT);
 		customer.fetch("type", JoinType.LEFT);
