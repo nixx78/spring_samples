@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:int="http://www.springframework.org/schema/integration" 
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:stream="http://www.springframework.org/schema/integration/stream"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	    http://www.springframework.org/schema/integration 
+    	http://www.springframework.org/schema/integration/spring-integration.xsd 
+    	http://www.springframework.org/schema/context 
+    	http://www.springframework.org/schema/context/spring-context.xsd"> 
+ 
+ 
+  <int:channel id="responseToBWChannel">
+  	<int:queue capacity="10"/> 
+  </int:channel>
+<!--   
+  <int:channel id="SMSPaymentChannel">
+	<int:queue capacity="10"></int:queue>
+  </int:channel>
+
+  <int:channel id="ATMPaymentChannel">
+	<int:queue capacity="10"></int:queue>
+  </int:channel>
+  
+  <int:channel id="WEBPaymentChannel">
+	<int:queue capacity="10"></int:queue>
+  </int:channel>
+
+  <int:channel id="errorChannel">
+	<int:queue capacity="10"></int:queue>
+  </int:channel>
+-->   
+  <int:gateway id="paymentProcessingGateway"  default-reply-channel="responseToBWChannel" error-channel="errorChannel" service-interface="lv.nixx.poc.si.ibank.application.gateway.PaymentGateway">
+   	 <int:method name="sendTransaction" request-channel="paymentListProcessingChannel" />
+  </int:gateway> 
+   
+  <int:splitter id="paymentSplitter" input-channel="paymentListProcessingChannel" output-channel="paymentChannelRouter" ref="paymentListSplitter" method="splitPaymentList"/>
+
+
+  <int:router input-channel="paymentChannelRouter" expression="payload.getChannel() + 'PaymentChannel'"/>
+ 
+  <int:service-activator input-channel="SMSPaymentChannel"  ref="smsPaymentProcessor"  output-channel="paymentAggregatorChannel"/>
+  <int:service-activator input-channel="ATMPaymentChannel"  ref="atmPaymentProcessor"  output-channel="paymentAggregatorChannel" />
+  <int:service-activator input-channel="WEBPaymentChannel"  ref="webPaymentProcessor"  output-channel="paymentAggregatorChannel" />
+  <int:service-activator input-channel="ERRORPaymentChannel"  ref="errorPaymentProcessor"  output-channel="paymentAggregatorChannel" />
+ 
+  <int:aggregator input-channel="paymentAggregatorChannel" output-channel="paymentResponseChannel"/>
+  
+  <int:service-activator input-channel="paymentResponseChannel"  ref="paymentResponseProcessor"/>
+    
+  <int:transformer input-channel="errorChannel" ref="paymentExceptionTransformer" method="createPmtErrorResponse"/>
+  
+</beans> 

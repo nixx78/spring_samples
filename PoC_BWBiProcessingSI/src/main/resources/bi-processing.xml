@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:int="http://www.springframework.org/schema/integration" 
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:stream="http://www.springframework.org/schema/integration/stream"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	    http://www.springframework.org/schema/integration 
+    	http://www.springframework.org/schema/integration/spring-integration.xsd 
+    	http://www.springframework.org/schema/context 
+    	http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <int:channel id="responseToBWChannel">
+  	<int:queue capacity="10"/> 
+  </int:channel>
+    	
+  <int:gateway id="biProcessingGateway"  default-request-channel="bankInstructionChannel" default-reply-channel="responseToBWChannel" error-channel="biErrorChannel" service-interface="lv.nixx.poc.si.ibank.application.gateway.BankInstructionGateway" />
+
+  <int:header-enricher id="biHeaderEnricher" input-channel="bankInstructionChannel" output-channel="biTypeRouterChannel">
+	<int:header name="original.bw.request" expression="payload"/>
+  </int:header-enricher>
+
+  <int:router id="biTypeRouter" input-channel="biTypeRouterChannel" expression="payload.getBiType() + '_Channel'"/>
+  <int:service-activator input-channel="BI_TYPE1_Channel"  ref="biType1Processor" />
+  <int:service-activator input-channel="BI_TYPE2_Channel"  ref="biType2Processor" />
+  <int:service-activator input-channel="ERROR_BI_Channel"  ref="errorBiProcessor" />
+  
+  <int:transformer input-channel="biErrorChannel" ref="biExceptionTransformer" method="createBiErrorResponse"/>
+
+</beans> 
