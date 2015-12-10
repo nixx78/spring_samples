@@ -32,6 +32,9 @@ public class Customer {
     @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
     private Set<Adress> adress = new HashSet<>();
     
+    @Enumerated(EnumType.STRING)
+    private Segment segment = Segment.REGULAR;
+    
     protected Customer() {
     }
 
@@ -83,11 +86,25 @@ public class Customer {
 	public CustomerType getType() {
 		return this.type;
 	}
+	
+	public Segment getSegment() {
+		return segment;
+	}
+
+	public void setSegment(Segment segment) {
+		this.segment = segment;
+	}
 
 	@Override
 	public String toString() {
-		return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", type=" + type + "]";
+		return "Customer [id=" + id + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", segment=" + segment + ", type="
+				+ type + ", extension=" + extension + ", adress=" + adress
+				+ "]";
 	}
+
+	
+	
     
 
 }

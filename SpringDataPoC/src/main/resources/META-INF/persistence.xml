@@ -65,6 +65,7 @@
         you want hibernate to create a schema for you
         <property name="hibernate.hbm2ddl.auto" value="create"/> 
       -->
+      <!-- <property name="hibernate.hbm2ddl.auto" value="create"/> -->
     </properties>
   </persistence-unit>
 </persistence>

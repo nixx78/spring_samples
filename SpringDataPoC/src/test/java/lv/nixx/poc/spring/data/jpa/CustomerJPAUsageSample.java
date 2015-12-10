@@ -68,6 +68,7 @@ public class CustomerJPAUsageSample {
 		Customer c3 = new Customer("Piter", "First", null);
 		c3.setExtension(new CustomerExtension("addtionalData3"));
 		Customer c4 = new Customer("John", "Rembo", customerType);
+		c4.setSegment(Segment.VIP);
 		c4.setExtension(new CustomerExtension("addtionalData4"));
 		
 		entityManager.merge(c1);
