@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 
-public class CRUDSampleControllerMockTest {
+public class PersonControllerMockTest {
 
 	UUID key = UUID.fromString("f3512d26-72f6-4290-9265-63ad69eccc13");
 
@@ -42,9 +42,10 @@ public class CRUDSampleControllerMockTest {
 	
 	
 	@Test
-	public void getPersonPrintBody() throws Exception {
+	public void getPersonAndPrintBody() throws Exception {
 		 this.mockMvc.perform(get("/person/{id}",key.toString())
-			 .accept(MediaType.APPLICATION_JSON)).andDo(print());
+				.accept(MediaType.APPLICATION_JSON))
+		 		.andDo(print());
 		
 	}
 	
