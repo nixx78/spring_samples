@@ -21,7 +21,7 @@ public class CRUDSampleControllerMockTest {
 	MockMvc mockMvc;
 
 	@InjectMocks
-	CRUDSampleController controller;
+	PersonController controller;
 	
 	@Before
 	public void setup() {

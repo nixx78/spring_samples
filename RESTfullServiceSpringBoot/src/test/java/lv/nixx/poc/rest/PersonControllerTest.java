@@ -3,28 +3,35 @@ package lv.nixx.poc.rest;
 import static org.junit.Assert.*;
 import static lv.nixx.poc.rest.PersonFixtures.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.UUID;
 
 import lv.nixx.poc.rest.domain.Person;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.*;
 
-// Before test execution, REST sample server must be launched !!!
-
-public class CRUDClientSamples {
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class, webEnvironment=WebEnvironment.DEFINED_PORT)
+public class PersonControllerTest {
 	
 	private final String URL = "http://localhost:8080/person";
 
 	private final UUID key = UUID.fromString("f3512d26-72f6-4290-9265-63ad69eccc13");
-	
 	private RestTemplate restTemplate = new RestTemplate();
+	
 	
 	@Test
 	public void addPerson(){
@@ -37,8 +44,8 @@ public class CRUDClientSamples {
 		String location = response.getHeaders().getFirst("Location");
 		HttpStatus statusCode = response.getStatusCode();
 
-		assertNotNull("location", location ); 
 		assertEquals("status code", HttpStatus.CREATED, statusCode);
+		assertNotNull("location", location ); 
 		
 		System.out.println("HTTP header 'Location' " + location);
 		System.out.println("created person " + p + " status " + statusCode );
@@ -130,6 +137,28 @@ public class CRUDClientSamples {
 		
 		HttpEntity<String> entity = new HttpEntity<String>(createPersonXML(key),headers);
 		restTemplate.postForLocation(URL, entity, String.class);
-	} 
+	}
+
+	@Test
+	public void batchRemove() {
+		UUID[] ids = new UUID[] { UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID() };
+
+		HttpEntity<UUID[]> entity = new HttpEntity<UUID[]>(ids);
+		URI postForLocation = restTemplate.postForLocation(URL + "/deletes", entity, UUID[].class);
+		System.out.println("BatchLocation: " + postForLocation);
+
+		ResponseEntity<String> exchange = restTemplate.exchange(postForLocation, HttpMethod.DELETE, new HttpEntity<String>(""), String.class);
+		assertEquals(HttpStatus.OK, exchange.getStatusCode());
+	}
+	
+	@Test(expected = HttpClientErrorException.class)
+	public void batchRemove_BatchNotExists() throws URISyntaxException {
+		try {
+			restTemplate.delete(new URI(URL + "/deletes/" + UUID.randomUUID()));
+		} catch (HttpClientErrorException t) {
+			assertEquals(HttpStatus.NOT_FOUND, t.getStatusCode());
+			throw t;
+		}
+	}
 
 }
