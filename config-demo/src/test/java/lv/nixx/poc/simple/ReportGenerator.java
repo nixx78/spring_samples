@@ -35,14 +35,8 @@ public class ReportGenerator {
 	
 	private String addTableHeader() {
 		return 
-		"<table class=\"tg\" style=\"undefined;table-layout: fixed; width: 1133px\">" +
-		"<colgroup>" +
-			"<col style=\"width: 187px\">" +
-			"<col style=\"width: 279px\">" +
-			"<col style=\"width: 249px\">" +
-			"<col style=\"width: 201px\">" +
-			"<col style=\"width: 217px\">" +
-		"</colgroup>";
+		"<table class=\"tg\" style=\"undefined; table-layout: fixed; width: 1133px\">" +
+		addCollGroup(187,279,249,201);
 	}
 	
 	private Object addFooter() {
@@ -57,12 +51,10 @@ public class ReportGenerator {
 		    "<th class=\"tg-baqh\" colspan=\"3\" rowspan=\"5\">Description</th>" +
 		  "</tr>" +
 		  "<tr>" +
-		    "<td class=\"tg-dx8v\">Result<br></td>" +
-		    "<td class=\"tg-dx8v\">Success</td>" +
+		  	addRows("tg-dx8v", "Result", "Success") +
 		  "</tr>" +
 		  "<tr>" +
-		    "<td class=\"tg-dx8v\">ProcessingTime<br></td>" +
-		    "<td class=\"tg-dx8v\">919199</td>" +
+		  	addRows("tg-dx8v", "ProcessingTime", "919199") +
 		  "</tr>";
 	}
 	
@@ -74,15 +66,10 @@ public class ReportGenerator {
 		    "<td class=\"tg-u8fl\">Description<br></td>" +
 		  "</tr>" +
 		  "<tr>" +
-		    "<td class=\"tg-a080\">Result<br></td>" +
-		    "<td class=\"tg-a080\">Success<br></td>" +
+		  	addRows("tg-a080", "Result", "Success") +
 		  "</tr>" + 
 		  "<tr>" +
-		    "<td class=\"field-header\">Name</td>" +
-		    "<td class=\"field-header\">Actual</td>" +
-		    "<td class=\"field-header\">Expected</td>" +
-		    "<td class=\"field-header\">Diff</td>" +
-		    "<td class=\"field-header\">Result</td>" +
+			addRows("field-header", "Name", "Actual", "Expected", "Diff", "Result") + 
 		  "</tr>";
 	}
 
@@ -96,16 +83,28 @@ public class ReportGenerator {
 	}
 	
 	private String addFieldRow(String name, boolean isValid) {
-		String cs = isValid ? "frow-ok" : "frow-fail";  
 		return 
 		 "<tr>" +
-		    "<td class=\"" + cs + "\">" + name + "</td>" +
-		    "<td class=\"" + cs + "\">ActualValue</td>" +
-		    "<td class=\"" + cs + "\">ExpectedValue</td>" +
-		    "<td class=\"" + cs + "\"></td>" +
-		    "<td class=\"" + cs + "\">" + isValid + "</td>" +
-		  "</tr>";
-		
+			addRows(isValid ? "frow-ok" : "frow-fail", name, "ActualValue", "ExpectedValue", 10, isValid) +
+		 "</tr>";
+	}
+	
+	private String addRows(String style, Object... values) {
+		StringBuilder sb = new StringBuilder();
+		for (Object v: values) {
+			sb.append("<td class=\"" + style+ "\">" + v + "</td>");
+		}
+		return sb.toString();
+	}
+	
+	private String addCollGroup(int... widths) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<colgroup>");
+		for(int w: widths) {
+			sb.append("<col style=\"width: " + w + "px\">");
+		}
+		sb.append("</colgroup>");		
+		return sb.toString();
 	}
 
 	
