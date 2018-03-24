@@ -51,7 +51,11 @@ public class RequestResponseApplication {
 				.collect(Collectors.toList());
 
 		for (Future<String> future : futures) {
-			System.out.println("Synch response [" + future.get() + "]");
+			try {
+				System.out.println("Synch response [" + future.get() + "]");
+			} catch (Exception ex) {
+				System.err.println(ex);
+			}
 		}
 
 		System.out.println("Existing...");

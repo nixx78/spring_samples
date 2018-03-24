@@ -20,35 +20,33 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RequestResponseSynch {
-	
+
 	private static final String SYNCH_QUEUE_RESPONSE = "synch.queue.response";
-	private Map<String, BlockingQueue<String>> map = new ConcurrentHashMap<>();
+	private static Map<String, BlockingQueue<String>> map = new ConcurrentHashMap<>();
 	private JmsTemplate jmsTemplate;
-	
-	@Autowired	
+
+	@Autowired
 	public void setJmsTemplate(JmsTemplate jmsTemplate) {
 		this.jmsTemplate = jmsTemplate;
 	}
 
-
 	@JmsListener(destination = SYNCH_QUEUE_RESPONSE, containerFactory = "myFactory")
 	public void responseCome(TextMessage message) throws Exception {
-		
+
 		String correlationID = message.getJMSCorrelationID();
 		System.out.println("Response for Id [" + correlationID + "] come, message [" + message.getText() + "]");
-		
+
 		if (map.containsKey(correlationID)) {
 			BlockingQueue<String> blockingQueue = map.get(correlationID);
 			blockingQueue.put(message.getText());
 		}
 	}
 
-	
 	public String sendSynchRequest(String message) throws Exception {
 		String id = UUID.randomUUID().toString();
-		
+
 		map.put(id, new ArrayBlockingQueue<>(1));
-		
+
 		jmsTemplate.send("synch.queue.request", new MessageCreator() {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
@@ -57,14 +55,26 @@ public class RequestResponseSynch {
 				return msg;
 			}
 		});
-		
+
 		return waitForResponse(id);
 	}
-	
+
 	public String waitForResponse(String id) throws Exception {
-		if (map.containsKey(id)) {
-			BlockingQueue<String> q = map.get(id);
-			return q.poll(5, TimeUnit.SECONDS);
+
+		try {
+			if (map.containsKey(id)) {
+				BlockingQueue<String> q = map.get(id);
+				String resp = q.poll(5, TimeUnit.SECONDS);
+				
+				if (resp == null ) {
+					throw new IllegalStateException("Timeout durign wating for response, id:" + id);
+				}
+				
+				return resp;
+			}
+		} finally {
+			// Always remove from map to avoid memory leak
+			map.remove(id);
 		}
 		return null;
 	}
