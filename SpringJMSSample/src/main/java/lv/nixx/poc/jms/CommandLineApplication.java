@@ -39,7 +39,7 @@ public class CommandLineApplication {
 		try (Scanner keyboard = new Scanner(System.in)) {
 			String message = "";
 			do {
-				System.out.println("Enter an message text");
+				System.out.println("Enter an message text, or 'exit' for cancel");
 				message = keyboard.nextLine();
 				sendMessageAndLogResponse(jmsTemplate, message);
 			} while (!message.equalsIgnoreCase("exit"));
@@ -57,7 +57,7 @@ public class CommandLineApplication {
 			}
 		};
 
-		Message sendAndReceive = jmsTemplate.sendAndReceive("synch.queue.request", msgCreator);
+		Message sendAndReceive = jmsTemplate.sendAndReceive("synch.queue.request.jmstemplate", msgCreator);
 		System.out.println("Synch response to request [" +  ((TextMessage)sendAndReceive).getText() + "]");
 	}
 

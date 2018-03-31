@@ -18,7 +18,7 @@ public class Receiver {
 	@Autowired
 	private JmsTemplate jmsTemplate;
 
-	@JmsListener(destination = "synch.queue.request", containerFactory = "myFactory")
+	@JmsListener(destination = "synch.queue.request.jmstemplate", containerFactory = "myFactory")
 	public void receiveMessage(TextMessage message) throws JMSException {
 		Destination jmsReplyTo = message.getJMSReplyTo();
 

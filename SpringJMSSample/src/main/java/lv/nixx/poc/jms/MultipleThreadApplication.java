@@ -79,7 +79,7 @@ public class MultipleThreadApplication {
 				}
 			};
 
-			Message sendAndReceive = jmsTemplate.sendAndReceive("synch.queue.request", msgCreator);
+			Message sendAndReceive = jmsTemplate.sendAndReceive("synch.queue.request.jmstemplate", msgCreator);
 			return ((TextMessage)sendAndReceive).getText();
 		}
 		
