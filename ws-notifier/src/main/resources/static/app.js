@@ -21,11 +21,17 @@ function connect() {
         stompClient.subscribe('/app/topic/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
+        
+        stompClient.subscribe('/topic/greetings', function (greeting) {
+            showGreeting(JSON.parse(greeting.body).content);
+        });
     });
 }
 
 function disconnect() {
     if (stompClient !== null) {
+    	stompClient.unsubscribe('/app/topic/greetings');
+    	stompClient.unsubscribe('/topic/greetings');
         stompClient.disconnect();
     }
     setConnected(false);

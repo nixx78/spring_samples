@@ -15,6 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
+
+
+//TODO https://docs.spring.io/spring-framework/docs/5.0.0.M1/spring-framework-reference/html/websocket.html
+
 @Controller
 public class AppController {
 	
@@ -35,8 +39,7 @@ public class AppController {
     }
 
     @MessageMapping("message")
-    @ResponseBody
-//    @SendTo("/topic/greetings")
+    @SendTo("/topic/greetings")
     public Time greeting(Message message) throws Exception {
     	LOG.info("Message received: {}", message);
         return new Time("Hello, " + HtmlUtils.htmlEscape(message.getText()) + "!");
@@ -46,7 +49,7 @@ public class AppController {
     public void sentTime() {
     	final String payload = "Now is " + new Date();
     	LOG.info("Payload: {}", payload );
-		template.convertAndSend("/app/topic/greetings", new Time(payload));
+		template.convertAndSend("/topic/greetings", new Time(payload));
     }
     
 
