@@ -1,6 +1,5 @@
 package lv.nixx.poc.ws;
 
-
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -12,9 +11,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
-
 
 
 //TODO https://docs.spring.io/spring-framework/docs/5.0.0.M1/spring-framework-reference/html/websocket.html
@@ -32,7 +29,6 @@ public class AppController {
 	}
     
     @SubscribeMapping("/topic/greetings")
-    @ResponseBody
     public Time subscribe() {
     	LOG.info("Subscription to topic '/topic/greetings'");
     	return new Time("Subscribe is " + new Date());
