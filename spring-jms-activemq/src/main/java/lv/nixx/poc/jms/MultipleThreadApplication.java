@@ -63,15 +63,7 @@ public class MultipleThreadApplication {
 
 		@Override
 		public String call() throws Exception {
-			
-			MessageCreator msgCreator = new MessageCreator() {
-				@Override
-				public Message createMessage(Session session) throws JMSException {
-					return session.createTextMessage(message);
-				}
-			};
-
-			Message sendAndReceive = jmsTemplate.sendAndReceive("synch.queue.request.jmstemplate", msgCreator);
+			Message sendAndReceive = jmsTemplate.sendAndReceive("synch.queue.request.jmstemplate", session -> session.createTextMessage(message));
 			return ((TextMessage)sendAndReceive).getText();
 		}
 		

@@ -25,14 +25,10 @@ import org.springframework.jms.config.JmsListenerContainerFactory;
 @ComponentScan(basePackages = "lv.nixx.poc.jms.*")
 public class RequestResponseApplication {
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args)  {
 		ConfigurableApplicationContext context = SpringApplication.run(RequestResponseApplication.class, args);
 
 		RequestResponseSynch synchRequest = context.getBean(RequestResponseSynch.class);
-
-		// One call sample
-		// String response = synchRequest.sendSynchRequest("Message1");
-		// System.out.println("Synch response: " + response);
 
 		ExecutorService pool = Executors.newFixedThreadPool(5);
 

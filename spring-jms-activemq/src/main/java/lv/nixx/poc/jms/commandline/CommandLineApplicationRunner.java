@@ -2,8 +2,6 @@ package lv.nixx.poc.jms.commandline;
 
 import java.util.Scanner;
 
-import javax.jms.JMSException;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

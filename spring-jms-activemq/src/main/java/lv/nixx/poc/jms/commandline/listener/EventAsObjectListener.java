@@ -13,7 +13,7 @@ public class EventAsObjectListener {
 
 	@JmsListener(concurrency = "1", destination = "event.queue", containerFactory = "containerFactory")
 	public void receiveMessage(Event message) {
-		LOG.info("Event as obbject come {}", message);
+		LOG.info("Event as object come {}", message);
 	}
 
 }

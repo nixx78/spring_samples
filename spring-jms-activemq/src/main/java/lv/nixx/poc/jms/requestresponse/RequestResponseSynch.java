@@ -26,8 +26,8 @@ public class RequestResponseSynch {
 	private JmsTemplate jmsTemplate;
 
 	@Autowired
-	public void setJmsTemplate(JmsTemplate jmsTemplate) {
-		this.jmsTemplate = jmsTemplate;
+	public void setJmsTemplate(JmsTemplate jmsQueueTemplate) {
+		this.jmsTemplate = jmsQueueTemplate;
 	}
 
 	@JmsListener(destination = SYNCH_QUEUE_RESPONSE, containerFactory = "containerFactory")

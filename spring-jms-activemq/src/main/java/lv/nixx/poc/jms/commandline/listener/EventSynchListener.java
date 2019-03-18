@@ -23,8 +23,8 @@ public class EventSynchListener {
 	private ObjectMapper om;
 
 	@Autowired
-	public void setJmsTemplate(JmsTemplate jmsTemplate) {
-		this.jmsTemplate = jmsTemplate;
+	public void setJmsTemplate(JmsTemplate jmsQueueTemplate) {
+		this.jmsTemplate = jmsQueueTemplate;
 	}
 
 	@Autowired
