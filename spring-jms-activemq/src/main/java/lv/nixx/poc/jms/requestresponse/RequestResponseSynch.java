@@ -30,7 +30,7 @@ public class RequestResponseSynch {
 		this.jmsTemplate = jmsTemplate;
 	}
 
-	@JmsListener(destination = SYNCH_QUEUE_RESPONSE, containerFactory = "myFactory")
+	@JmsListener(destination = SYNCH_QUEUE_RESPONSE, containerFactory = "containerFactory")
 	public void responseCome(TextMessage message) throws Exception {
 
 		String correlationID = message.getJMSCorrelationID();
