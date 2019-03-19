@@ -15,7 +15,7 @@ public class EventAsTextListener {
 
 	@JmsListener(concurrency = "1", destination = "event.text.queue", containerFactory = "containerFactory")
 	public void receiveMessage(TextMessage message) throws JMSException {
-		LOG.info("Receive message as TextMessage, body contains JSON [{}]", message.getText());
+		LOG.info("Receive message as TextMessage, body [{}]", message.getText());
 	}
 
 }

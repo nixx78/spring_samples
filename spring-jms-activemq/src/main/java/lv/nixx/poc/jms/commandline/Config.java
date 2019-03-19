@@ -67,8 +67,7 @@ public class Config {
         return template;
     }
 
-    @Bean
-    @Qualifier("topicTemplate")
+    @Bean("topicTemplate")
     public JmsTemplate jmsTopicTemplate(){
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(connectionFactory());
