@@ -18,11 +18,11 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/app/topic/greetings', function (greeting) {
+        stompClient.subscribe('/app/topic/time', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
         
-        stompClient.subscribe('/topic/greetings', function (greeting) {
+        stompClient.subscribe('/topic/time', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
     });
@@ -30,8 +30,8 @@ function connect() {
 
 function disconnect() {
     if (stompClient !== null) {
-    	stompClient.unsubscribe('/app/topic/greetings');
-    	stompClient.unsubscribe('/topic/greetings');
+    	stompClient.unsubscribe('/app/topic/time');
+    	stompClient.unsubscribe('/topic/time');
         stompClient.disconnect();
     }
     setConnected(false);

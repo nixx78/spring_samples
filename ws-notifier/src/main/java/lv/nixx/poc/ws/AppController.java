@@ -13,9 +13,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
 
-
-//TODO https://docs.spring.io/spring-framework/docs/5.0.0.M1/spring-framework-reference/html/websocket.html
-
 @Controller
 public class AppController {
 	
@@ -28,25 +25,24 @@ public class AppController {
 		this.template = template;
 	}
     
-    @SubscribeMapping("/topic/greetings")
+    @SubscribeMapping("/topic/time")
     public Time subscribe() {
-    	LOG.info("Subscription to topic '/topic/greetings'");
     	return new Time("Subscribe is " + new Date());
     }
 
     @MessageMapping("message")
-    @SendTo("/topic/greetings")
-    public Time greeting(Message message) throws Exception {
+    @SendTo("/topic/time")
+    public Time reveiceAndProcessMessage(Message message) {
     	LOG.info("Message received: {}", message);
         return new Time("Hello, " + HtmlUtils.htmlEscape(message.getText()) + "!");
     }
-   
-    @Scheduled(fixedDelay=30_000)
-    public void sentTime() {
-    	final String payload = "Now is " + new Date();
-    	LOG.info("Payload: {}", payload );
-		template.convertAndSend("/topic/greetings", new Time(payload));
-    }
+//
+//    @Scheduled(fixedDelay=30_000)
+//    public void sentTime() {
+//    	final String payload = "Now is " + new Date();
+//    	LOG.info("Payload: {}", payload );
+//		template.convertAndSend("/topic/time", new Time(payload));
+//    }
     
 
 }
