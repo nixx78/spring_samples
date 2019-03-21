@@ -1,4 +1,4 @@
-package lv.nixx.poc.ws;
+package lv.nixx.poc.ws.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +9,6 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message {
-    private String text;
+public class ActionRequest {
+    private String action;
 }

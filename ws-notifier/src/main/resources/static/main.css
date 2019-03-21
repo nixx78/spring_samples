@@ -12,3 +12,16 @@ body {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+
+.message-class {
+    background-color: #efffe8;
+}
+
+.stop-class {
+    background-color: #f7694a;
+}
+
+.start-class {
+    background-color: #5bf916;
+}
+
