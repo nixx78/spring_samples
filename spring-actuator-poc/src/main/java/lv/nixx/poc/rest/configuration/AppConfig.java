@@ -24,6 +24,7 @@ public class AppConfig {
 
 	@Bean
 	public HealthIndicator comp1HealthIndicator() {
+
 		return () -> Health.status(Status.UP)
 				.withDetail("detail1", "text1")
 				.withDetail("message", component1.getStatusMessage())
@@ -33,6 +34,8 @@ public class AppConfig {
 	@Bean
 	public DataSource derbyDataSource(){
 		ClientDataSource ds = new ClientDataSource();
+		ds.setDataSourceName("DS_NAME");
+		ds.setDatabaseName("DB_NAME");
 		ds.setServerName ("localhost");
 		ds.setPortNumber(1527);
 		ds.setDatabaseName ("derbyDB");
@@ -42,23 +45,7 @@ public class AppConfig {
 	}
 
 	@Bean
-	public DataSource derbyDataSource1(){
-		ClientDataSource ds = new ClientDataSource();
-		ds.setServerName ("localhost");
-		ds.setPortNumber(1527);
-		ds.setDatabaseName ("derbyDB");
-		ds.setUser("admin");
-		ds.setPassword("admin");
-		return ds;
-	}
-
-	@Bean
-	public HealthIndicator dbHealthIndicator() {
-		return new DataSourceHealthIndicator(derbyDataSource(), "select current_timestamp from sysibm.sysdummy1");
-	}
-
-	@Bean
-	public HealthIndicator db1HealthIndicator() {
+	public HealthIndicator dbName1HealthIndicator() {
 		return new DataSourceHealthIndicator(derbyDataSource(), "select current_timestamp from sysibm.sysdummy1");
 	}
 
