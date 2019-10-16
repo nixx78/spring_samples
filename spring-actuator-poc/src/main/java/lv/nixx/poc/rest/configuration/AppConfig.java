@@ -34,8 +34,6 @@ public class AppConfig {
 	@Bean
 	public DataSource derbyDataSource(){
 		ClientDataSource ds = new ClientDataSource();
-		ds.setDataSourceName("DS_NAME");
-		ds.setDatabaseName("DB_NAME");
 		ds.setServerName ("localhost");
 		ds.setPortNumber(1527);
 		ds.setDatabaseName ("derbyDB");
@@ -44,8 +42,20 @@ public class AppConfig {
 		return ds;
 	}
 
+    @Bean
+    public DataSource derbyDataSource1(){
+        ClientDataSource ds = new ClientDataSource();
+        ds.setServerName ("localhost");
+        ds.setPortNumber(1527);
+        ds.setDatabaseName ("derbyDB");
+        ds.setUser("admin");
+        ds.setPassword("admin");
+        return ds;
+    }
+
 	@Bean
 	public HealthIndicator dbName1HealthIndicator() {
+	    // Custom DB checker
 		return new DataSourceHealthIndicator(derbyDataSource(), "select current_timestamp from sysibm.sysdummy1");
 	}
 
