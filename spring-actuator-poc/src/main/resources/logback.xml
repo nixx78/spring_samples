@@ -28,36 +28,11 @@
 		</rollingPolicy>
 	</appender>
 
-	<appender name="Audit"	class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOG_DIR}/audit.log</file>
-		<encoder>
-			<pattern>${PATTERN}</pattern>
-		</encoder>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${LOG_DIR}//audit.%d{yyyy-MM-dd}.%i.log
-			</fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy	class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>100MB</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-			<!--<maxHistory>30</maxHistory> -->
-		</rollingPolicy>
-	</appender>
-
-
 	<root level="info">
 		<appender-ref ref="Console" />
 		<appender-ref ref="FileMain" />
 	</root>
 
-	<logger name="lv.nixx.poc.rest.controller.PersonController" level="DEBUG" />
-	
-	<logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG">
-	    <appender-ref ref="Audit"/>
-	</logger>
 
-	<logger name="AUDIT_LOG" level="DEBUG">
-	    <appender-ref ref="Audit"/>
-	</logger>	
-	
 
 </configuration>
