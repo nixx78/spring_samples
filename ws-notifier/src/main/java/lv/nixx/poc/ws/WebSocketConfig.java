@@ -13,14 +13,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry registry) {
 
         // Configuration with SimpleBroker
-        // config.enableSimpleBroker("/topic");
+        registry.enableSimpleBroker("/topic");
         
         // Configuration with real broker
-        registry.enableStompBrokerRelay("/topic", "/queue")
-                .setRelayHost("localhost")
-                .setRelayPort(61613)
-                .setClientLogin("admin")
-                .setClientPasscode("admin");
+//        registry.enableStompBrokerRelay("/topic", "/queue")
+//                .setRelayHost("localhost")
+//                .setRelayPort(61613)
+//                .setClientLogin("admin")
+//                .setClientPasscode("admin");
 
         registry.setApplicationDestinationPrefixes("/app");
     }
