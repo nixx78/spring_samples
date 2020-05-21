@@ -42,5 +42,15 @@ public class SampleController {
         return service.methodForAdmin();
     }
 
+    @GetMapping("/userEndpoint")
+    public String endpointForUser() {
+        return service.methodForUser();
+    }
+
+    @GetMapping("/allEndpoint")
+    public String allEndpoint() {
+        return service.methodForAll();
+    }
+
 
 }

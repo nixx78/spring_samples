@@ -20,7 +20,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public CustomUserDetailsService() {
         users = Map.of(
                 "admin", new CustomUser("admin", "1", List.of(
-                        new SimpleGrantedAuthority("ROLE_USER"),
                         new SimpleGrantedAuthority("ROLE_ADMIN")
                 )),
                 "user", new CustomUser("user", "1", List.of(
