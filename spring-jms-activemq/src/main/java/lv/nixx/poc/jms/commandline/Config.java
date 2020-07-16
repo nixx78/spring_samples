@@ -1,24 +1,17 @@
 package lv.nixx.poc.jms.commandline;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
-
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
-
 
 import javax.jms.ConnectionFactory;
 
@@ -29,6 +22,12 @@ import javax.jms.ConnectionFactory;
 public class Config {
 
     private Environment env;
+    private ConnectionFactory connectionFactory;
+
+    @Autowired
+    public void setConnectionFactory(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
+    }
 
     @Autowired
     public void setEnv(Environment env) {
@@ -41,39 +40,11 @@ public class Config {
     }
 
     @Bean
-    public ActiveMQConnectionFactory connectionFactory(){
-
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-        connectionFactory.setBrokerURL(env.getProperty("activemq.broker-url"));
-        connectionFactory.setPassword(env.getProperty("activemq.user"));
-        connectionFactory.setUserName(env.getProperty("activemq.password"));
-
-        return connectionFactory;
-    }
-
-    @Bean
     public MessageConverter jacksonJmsMessageConverter() {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
         converter.setTypeIdPropertyName("_type");
         return converter;
-    }
-
-    @Bean
-    public JmsTemplate jmsQueueTemplate(){
-        JmsTemplate template = new JmsTemplate();
-        template.setConnectionFactory(connectionFactory());
-        template.setMessageConverter(jacksonJmsMessageConverter());
-        return template;
-    }
-
-    @Bean("topicTemplate")
-    public JmsTemplate jmsTopicTemplate(){
-        JmsTemplate template = new JmsTemplate();
-        template.setConnectionFactory(connectionFactory());
-        template.setMessageConverter(jacksonJmsMessageConverter());
-        template.setPubSubDomain(true);
-        return template;
     }
 
     @Bean
@@ -90,7 +61,34 @@ public class Config {
         configurer.configure(factory, connectionFactory);
 
         factory.setPubSubDomain(true);
-       return factory;
+        return factory;
+    }
+
+
+//     @Bean
+//    public ActiveMQConnectionFactory connectionFactory(){
+//        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
+//        connectionFactory.setBrokerURL(env.getProperty("activemq.broker-url"));
+//        connectionFactory.setPassword(env.getProperty("activemq.user"));
+//        connectionFactory.setUserName(env.getProperty("activemq.password"));
+//        return connectionFactory;
+//    }
+
+    @Bean
+    public JmsTemplate jmsQueueTemplate() {
+        JmsTemplate template = new JmsTemplate();
+        template.setConnectionFactory(connectionFactory);
+        template.setMessageConverter(jacksonJmsMessageConverter());
+        return template;
+    }
+
+    @Bean("topicTemplate")
+    public JmsTemplate jmsTopicTemplate() {
+        JmsTemplate template = new JmsTemplate();
+        template.setConnectionFactory(connectionFactory);
+        template.setMessageConverter(jacksonJmsMessageConverter());
+        template.setPubSubDomain(true);
+        return template;
     }
 
 }

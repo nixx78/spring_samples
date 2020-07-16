@@ -1,16 +1,15 @@
 package lv.nixx.poc.jms;
 
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
-import javax.jms.TextMessage;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
+
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.TextMessage;
 
 @Component
 public class Receiver {
@@ -18,6 +17,7 @@ public class Receiver {
 	private JmsTemplate jmsTemplate;
 
 	@Autowired
+	@Qualifier("jmsQueueTemplate")
 	public void setJmsTemplate(JmsTemplate jmsTemplate) {
 		this.jmsTemplate = jmsTemplate;
 	}
@@ -31,14 +31,11 @@ public class Receiver {
 		
 		System.out.println("T:" + Thread.currentThread().getName() +  " message [" + message.getText() + "] reply queue [" + jmsReplyTo + "]");
 		
-		MessageCreator messageCreator = new MessageCreator() {
-
-			@Override
-			public Message createMessage(Session session) throws JMSException {
-				TextMessage msg = session.createTextMessage(request + ".response");
-				msg.setJMSCorrelationID(jmsCorrelationID);
-				return msg;
-			}};
+		MessageCreator messageCreator = session -> {
+			TextMessage msg = session.createTextMessage(request + ".response");
+			msg.setJMSCorrelationID(jmsCorrelationID);
+			return msg;
+		};
 		
 		jmsTemplate.send(jmsReplyTo, messageCreator);
 	}

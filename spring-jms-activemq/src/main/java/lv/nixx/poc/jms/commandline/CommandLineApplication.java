@@ -41,7 +41,7 @@ public class CommandLineApplication {
         jmsSender.sendMessageToQueue("event.text.queue", jsonEvent);
 
         Message sendAndReceive = jmsSender.sendAndReceive("synch.event.queue", jsonEvent);
-        LOG.info("Synch response to request [{}}", ((TextMessage) sendAndReceive).getText());
+        LOG.info("Synch response to request [{}]", ((TextMessage) sendAndReceive).getText());
     }
 
 
