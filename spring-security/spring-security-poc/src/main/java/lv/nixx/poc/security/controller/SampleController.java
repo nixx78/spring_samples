@@ -2,6 +2,8 @@ package lv.nixx.poc.security.controller;
 
 import lv.nixx.poc.security.CustomUser;
 import lv.nixx.poc.security.service.SomeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SampleController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SampleController.class);
+
     private SomeService service;
 
     @Autowired
@@ -20,20 +24,25 @@ public class SampleController {
     }
 
     @GetMapping("/secured")
-    @ResponseBody
     public String getSample() {
-        return "Success:get";
+        LOG.info("/secured called");
+        return "Success:secured";
+    }
+
+    @GetMapping("/basicSecured")
+    public String getBasicSecured() {
+        LOG.info("/getBasicSecured called");
+        return "Success:basicSecured";
     }
 
     @GetMapping(value = "/userDetails", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public CustomUser getUserInfo(Authentication auth) {
         return (CustomUser) auth.getPrincipal();
     }
 
     @GetMapping("/home")
-    @ResponseBody
     public String homeSample() {
+        LOG.info("/home called");
         return "Success:home";
     }
 

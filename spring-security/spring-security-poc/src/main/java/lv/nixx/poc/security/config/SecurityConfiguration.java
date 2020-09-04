@@ -22,13 +22,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .and()
                 // Only POST allowed, but in this case, we also should disable CSRF (for test)
-                .logout().permitAll().invalidateHttpSession(true);
+                .logout()
+                .permitAll()
+                .invalidateHttpSession(true)
+                .and()
+                .antMatcher("/basicSecured")
+                .httpBasic();
         // In this case GET allowed
 //                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
 
