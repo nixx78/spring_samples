@@ -21,7 +21,16 @@ public class AppRunner implements CommandLineRunner {
         logger.info(".... Fetching customers");
         logger.info("1L -->" + customerRepository.getById(1L));
         logger.info("100L -->" + customerRepository.getById(100L));
+        logger.info("100L -->" + customerRepository.getById(100L));
         logger.info("200L -->" + customerRepository.getById(200L));
+
+        logger.info(".... Clear customers cache");
+        customerRepository.clearCache();
+
+        logger.info("100L -->" + customerRepository.getById(100L));
+        logger.info("200L -->" + customerRepository.getById(200L));
+        logger.info("100L -->" + customerRepository.getById(100L));
+
     }
 
 }
