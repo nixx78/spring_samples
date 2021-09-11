@@ -9,17 +9,17 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @SpringBootApplication
 @EnableConfigurationProperties(ConfigurationPropertiesConfig.class)
-public class PropertiesSandboxApplication extends SpringBootServletInitializer {
+public class AppRunner extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		PropertyLoader.loadProperties();
-		return application.sources(PropertiesSandboxApplication.class);
+		return application.sources(AppRunner.class);
 	}
 
 	public static void main(String[] args) {
 		PropertyLoader.loadProperties();
-		SpringApplication.run(PropertiesSandboxApplication.class, args);
+		SpringApplication.run(AppRunner.class, args);
 	}
 
 }
