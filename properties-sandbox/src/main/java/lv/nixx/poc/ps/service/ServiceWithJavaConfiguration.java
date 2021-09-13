@@ -3,6 +3,7 @@ package lv.nixx.poc.ps.service;
 import lv.nixx.poc.ps.PropertyWrapper;
 import lv.nixx.poc.ps.configuration.ApplicationConfig;
 import lv.nixx.poc.ps.configuration.ConfigurationPropertiesConfig;
+import lv.nixx.poc.ps.configuration.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,18 @@ public class ServiceWithJavaConfiguration {
         return "Property from 'ApplicationConfig' - " + applicationConfig.getPropertyFromAppConfig() +
                 " customApplicationProperty - " + configurationPropertiesConfig.getCustomApplicationProperty() +
                 " propertyAsBean - " + propertyAsBean;
+    }
+
+    public int getPageSize() {
+        return configurationPropertiesConfig.getPageSize();
+    }
+
+    public int getTotalRecordCount() {
+        return configurationPropertiesConfig.getTotalRecordCount();
+    }
+
+    public Permission getPermission() {
+        return configurationPropertiesConfig.getPermission();
     }
 
 }

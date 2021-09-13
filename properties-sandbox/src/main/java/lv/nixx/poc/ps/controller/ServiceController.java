@@ -26,6 +26,7 @@ public class ServiceController {
         this.serviceWithEnvironmentValue = serviceWithEnvironmentValue;
     }
 
+
     @GetMapping("/process")
     public Response callServices() {
         return new Response()
@@ -33,7 +34,9 @@ public class ServiceController {
                 .setPropertyFromValue(serviceWithValueProperties.process())
                 .setPropertyFromApplicationConfig(serviceWithJavaConfiguration.process())
                 .setPropertyFromEnvironment(serviceWithEnvironmentValue.process())
-                ;
+                .setPageSize(serviceWithJavaConfiguration.getPageSize())
+                .setTotalRecordCount(serviceWithJavaConfiguration.getTotalRecordCount())
+                .setPermission(serviceWithJavaConfiguration.getPermission());
     }
 
 }
