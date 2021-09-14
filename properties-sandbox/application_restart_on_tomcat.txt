@@ -1,0 +1,11 @@
+1. User role configuration
+
+tomcat-users.xml
+      <role rolename="manager-script"/>
+       <user username="admin" password="admin" roles="manager-script"/>
+
+2. Stop/Start command
+
+curl --user admin:admin http://localhost:8080/manager/text/stop?path=/properties-sandbox
+curl --user admin:admin http://localhost:8080/manager/text/start?path=/properties-sandbox
+
