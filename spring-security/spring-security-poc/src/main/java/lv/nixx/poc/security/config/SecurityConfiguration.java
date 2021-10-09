@@ -11,33 +11,33 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/basicSecured").authenticated()
+                .antMatchers("/view/*").authenticated()
+                .antMatchers("/login*").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
+                .loginPage("/login_page")
+                .loginProcessingUrl("/perform_login")
+//                .defaultSuccessUrl("/homepage.html", true)
+//                .failureUrl("/login.html?error=true")
+//                .failureHandler(authenticationFailureHandler())
                 .and()
-                // Only POST allowed, but in this case, we also should disable CSRF (for test)
                 .logout()
-                .permitAll()
-                .invalidateHttpSession(true)
-                .and()
-                .antMatcher("/basicSecured")
-                .httpBasic();
-        // In this case GET allowed
-//                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
-
+                .logoutUrl("/perform_logout")
+                .deleteCookies("JSESSIONID");
+//                .logoutSuccessHandler(logoutSuccessHandler());
     }
 
     @Autowired

@@ -1,6 +1,7 @@
 package lv.nixx.poc.security.controller;
 
 import lv.nixx.poc.security.CustomUser;
+import lv.nixx.poc.security.service.LoginService;
 import lv.nixx.poc.security.service.SomeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +17,13 @@ public class SampleController {
 
     private static final Logger LOG = LoggerFactory.getLogger(SampleController.class);
 
-    private SomeService service;
+    private final SomeService service;
+    private final LoginService loginService;
 
     @Autowired
-    public SampleController(SomeService service) {
+    public SampleController(SomeService service, LoginService loginService) {
         this.service = service;
+        this.loginService = loginService;
     }
 
     @GetMapping("/secured")
@@ -36,8 +39,8 @@ public class SampleController {
     }
 
     @GetMapping(value = "/userDetails", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CustomUser getUserInfo(Authentication auth) {
-        return (CustomUser) auth.getPrincipal();
+    public CustomUser getUserInfo() {
+        return loginService.getLoggedInUser();
     }
 
     @GetMapping("/home")

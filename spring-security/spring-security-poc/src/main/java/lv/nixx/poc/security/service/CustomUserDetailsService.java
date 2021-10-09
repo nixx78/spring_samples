@@ -19,12 +19,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public CustomUserDetailsService() {
         users = Map.of(
-                "admin", new CustomUser("admin", "1", List.of(
-                        new SimpleGrantedAuthority("ROLE_ADMIN")
-                )),
+                "admin", new CustomUser("admin", "1", List.of(new SimpleGrantedAuthority("ROLE_ADMIN")
+                )).setAvailableViews(List.of("view1", "view2")),
                 "user", new CustomUser("user", "1", List.of(
                         new SimpleGrantedAuthority("ROLE_USER")
-                ))
+                )).setAvailableViews(List.of("viewX"))
         );
     }
 
