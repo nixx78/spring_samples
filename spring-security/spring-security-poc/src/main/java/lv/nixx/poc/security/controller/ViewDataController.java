@@ -1,6 +1,10 @@
 package lv.nixx.poc.security.controller;
 
+import lv.nixx.poc.security.config.IllegalViewAccessException;
+import lv.nixx.poc.security.service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,6 +12,9 @@ import java.util.Map;
 
 @RestController
 public class ViewDataController {
+
+    @Autowired
+    private LoginService loginService;
 
     private final Map<String, String> viewData = Map.of(
             "view1", "View1 Data",
@@ -17,6 +24,15 @@ public class ViewDataController {
 
     @GetMapping("/view/data")
     public String getDataForView(@RequestParam String viewName) {
+        return viewData.get(viewName);
+    }
+
+    @GetMapping("/view/dataCheckInController/{viewName}")
+    public String getDataForViewCheckInController(@PathVariable String viewName) {
+        String userName = loginService.getUserName();
+        if (!loginService.isViewIsAllowed(viewName)) {
+            throw new IllegalViewAccessException(userName, viewName);
+        }
         return viewData.get(viewName);
     }
 

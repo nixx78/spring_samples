@@ -5,13 +5,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/OncePerRequestFilter.html
+
 @Component
-public class ViewNameFilter implements Filter {
+public class ViewNameFilter extends OncePerRequestFilter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ViewNameFilter.class);
 
@@ -23,32 +27,20 @@ public class ViewNameFilter implements Filter {
     }
 
     @Override
-    public void doFilter(
-            ServletRequest request,
-            ServletResponse response,
-            FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain chain) throws ServletException, IOException {
+        String viewName = httpServletRequest.getParameter("viewName");
+        if (viewName != null) {
+            LOG.info("User try to get view [{}] data", viewName);
+            String userName = loginService.getUserName();
 
-        if (request instanceof HttpServletRequest) {
-            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-
-            final String url = httpServletRequest.getRequestURL().toString();
-            final String queryString = httpServletRequest.getQueryString();
-
-            String viewName = httpServletRequest.getParameter("viewName");
-            if (viewName != null) {
-                LOG.info("User try to get view [{}] data", viewName);
-
-                String userName = loginService.getUserName();
-
-                if (!loginService.isViewIsAllowed(viewName)) {
-                    throw new IllegalViewAccessException(userName, viewName);
-                }
-
+            if (!loginService.isViewIsAllowed(viewName)) {
+                httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                String responseToClient = "For user [" + userName + "] view [" + viewName + "] not allowed";
+                httpServletResponse.getWriter().write(responseToClient);
+                httpServletResponse.getWriter().flush();
             }
-
         }
-
-        chain.doFilter(request, response);
+        chain.doFilter(httpServletRequest, httpServletResponse);
     }
 
 }
