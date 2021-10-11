@@ -38,9 +38,15 @@ public class ViewNameFilter extends OncePerRequestFilter {
                 String responseToClient = "For user [" + userName + "] view [" + viewName + "] not allowed";
                 httpServletResponse.getWriter().write(responseToClient);
                 httpServletResponse.getWriter().flush();
+
+                LOG.warn(responseToClient);
+            } else {
+                LOG.info("View [{}] is allowed for user [{}]", viewName, userName);
+                chain.doFilter(httpServletRequest, httpServletResponse);
             }
+        } else {
+            chain.doFilter(httpServletRequest, httpServletResponse);
         }
-        chain.doFilter(httpServletRequest, httpServletResponse);
     }
 
 }
