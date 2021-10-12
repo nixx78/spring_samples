@@ -1,4 +1,4 @@
-package lv.nixx.poc.security.config;
+package lv.nixx.poc.security.filter;
 
 import lv.nixx.poc.security.service.LoginService;
 import org.slf4j.Logger;
@@ -29,6 +29,7 @@ public class ViewNameFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain chain) throws ServletException, IOException {
         String viewName = httpServletRequest.getParameter("viewName");
+        LOG.info("ViewName filter fired");
         if (viewName != null) {
             LOG.info("User try to get view [{}] data", viewName);
             String userName = loginService.getUserName();
