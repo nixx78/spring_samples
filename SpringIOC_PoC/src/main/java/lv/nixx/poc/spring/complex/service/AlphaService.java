@@ -1,10 +1,12 @@
 package lv.nixx.poc.spring.complex.service;
 
 import lv.nixx.poc.spring.complex.Dto;
+import lv.nixx.poc.spring.complex.ServiceForProcessor;
 import lv.nixx.poc.spring.complex.Source;
 import org.springframework.stereotype.Service;
 
 @Service
+@ServiceForProcessor
 public class AlphaService implements IService{
 
     @Override

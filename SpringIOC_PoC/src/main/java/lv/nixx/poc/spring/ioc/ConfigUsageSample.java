@@ -3,7 +3,7 @@ package lv.nixx.poc.spring.ioc;
 import org.springframework.context.annotation.*;
 
 @Configuration("appConfig")
-@ComponentScan(basePackages="lv.nixx.spring")
+@ComponentScan(basePackages="lv.nixx.poc.spring.ioc")
 public class ConfigUsageSample {
 	
 	@Bean
@@ -31,8 +31,7 @@ public class ConfigUsageSample {
 		ConfigUsageSample bean = ctx.getBean("appConfig", ConfigUsageSample.class);
 		System.out.println(bean.john() + "!!!!!");
 		
-		
-		ComplexBean complexBean = (ComplexBean) ctx.getBean("beanWithJohn");
+		ComplexBean complexBean = ctx.getBean("beanWithJohn", ComplexBean.class);
 		complexBean.sayHello();
 		
 		String[] names = ctx.getBeanNamesForType(Customer.class);
@@ -42,14 +41,7 @@ public class ConfigUsageSample {
 		
 		Customer c1 = ctx.getBean("randomCustomer", Customer.class);
 		System.out.println(c1.hashCode() + ":" + c1);
-		
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
 		Customer c2 = ctx.getBean("randomCustomer", Customer.class);
 		System.out.println(c2.hashCode() + ":" + c2);
 	}

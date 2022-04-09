@@ -1,6 +1,5 @@
 package lv.nixx.poc.spring.complex;
 
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +12,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
-class OrchestrationServiceTest {
+class OrchestrationServiceWithAnnotationsTest {
 
     @Autowired
-    private OrchestrationService service;
+    private OrchestrationServiceWithAnnotations service;
 
     @Test
     void processTest() {
 
         Map<Source, Dto> process = service.process("request.value");
-        assertEquals(3, process.size());
+        assertEquals(2, process.size());
 
         process.entrySet().forEach(
                 System.out::println
