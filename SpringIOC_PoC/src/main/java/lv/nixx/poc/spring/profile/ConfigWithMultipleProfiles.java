@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Profile;
 public class ConfigWithMultipleProfiles {
 
     @Bean("pService")
-    @Profile("DEV")
+    @Profile("dev")
     public IService serviceForDev() {
         return new IService() {
             @Override
@@ -29,7 +29,7 @@ public class ConfigWithMultipleProfiles {
     }
 
     @Bean("pService")
-    @Profile("PROD")
+    @Profile("prod")
     public IService serviceForProd() {
         return new IService() {
             @Override

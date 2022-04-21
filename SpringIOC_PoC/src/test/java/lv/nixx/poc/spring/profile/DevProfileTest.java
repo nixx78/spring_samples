@@ -1,8 +1,8 @@
-package lv.nixx.poc.spring.complex;
+package lv.nixx.poc.spring.profile;
 
 
+import lv.nixx.poc.spring.complex.Dto;
 import lv.nixx.poc.spring.complex.service.IService;
-import lv.nixx.poc.spring.profile.ConfigWithMultipleProfiles;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,22 +11,30 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ConfigWithMultipleProfiles.class)
-@ActiveProfiles("PROD")
-class ProdProfileTest {
+@ActiveProfiles("dev")
+class DevProfileTest {
 
     @Autowired
     @Qualifier("pService")
     private IService service;
 
+    @Autowired
+    @Qualifier("serviceForProfile")
+    private IService serviceForProfile;
+
     @Test
     void processTest() {
-        Dto response = service.process("request");
+        Dto r1 = service.process("request");
+        Dto r2 = serviceForProfile.process("request");
 
-        assertEquals("Prod.Value.request", response.getField1());
+        assertAll(
+                () -> assertEquals("Dev.Value.request", r1.getField1()),
+                () -> assertEquals("ServiceForDevProfile.request", r2.getField1())
+        );
     }
-
 }

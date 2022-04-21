@@ -5,16 +5,11 @@ import lv.nixx.poc.spring.ioc.ConfigUsageSample;
 import lv.nixx.poc.spring.ioc.Customer;
 import org.hamcrest.collection.ArrayMatching;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = ConfigUsageSample.class)
 class ConfigTest {
 
     @Test
