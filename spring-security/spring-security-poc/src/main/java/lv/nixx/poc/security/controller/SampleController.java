@@ -1,6 +1,6 @@
 package lv.nixx.poc.security.controller;
 
-import lv.nixx.poc.security.CustomUser;
+import lv.nixx.poc.security.model.CustomUser;
 import lv.nixx.poc.security.service.LoginService;
 import lv.nixx.poc.security.service.SomeService;
 import org.slf4j.Logger;
@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
 
 @RestController
 public class SampleController {

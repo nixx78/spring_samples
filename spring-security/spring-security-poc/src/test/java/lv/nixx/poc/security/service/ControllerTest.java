@@ -22,9 +22,9 @@ public class ControllerTest {
 
     @Test
     public void unsecuredUrlTest() {
-        final ResponseEntity<String> res = restTemplate.getForEntity("http://localhost:" + localServerPort + "/account", String.class);
+        final ResponseEntity<String> res = restTemplate.getForEntity("http://localhost:" + localServerPort + "/home", String.class);
         assertEquals(HttpStatus.OK, res.getStatusCode());
-        assertEquals("AllAccounts", res.getBody());
+        assertEquals("Success:home", res.getBody());
     }
 
     @Test

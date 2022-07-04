@@ -1,10 +1,8 @@
 package lv.nixx.poc.security.service;
 
-import lv.nixx.poc.security.CustomUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import lv.nixx.poc.security.model.CustomUser;
+import lv.nixx.poc.security.model.ViewName;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +18,7 @@ public class LoginService {
         return getLoggedInUser().getUsername();
     }
 
-    public boolean isViewIsAllowed(String viewName) {
+    public boolean isViewIsAllowed(ViewName viewName) {
         return getLoggedInUser().getAvailableViews().contains(viewName);
     }
 }

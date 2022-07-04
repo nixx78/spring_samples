@@ -41,22 +41,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login_page")
                 .loginProcessingUrl("/perform_login")
-//                .defaultSuccessUrl("/homepage.html", true)
-//                .failureUrl("/login.html?error=true")
-//                .failureHandler(authenticationFailureHandler())
+                .defaultSuccessUrl("/swagger-ui.html", true)
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")
                 .deleteCookies("JSESSIONID");
-//                .logoutSuccessHandler(logoutSuccessHandler());
     }
 
     @Autowired
-    @Qualifier("customUserDetailsService")
-    UserDetailsService userDetailsService;
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(@Qualifier("customUserDetailsService") UserDetailsService userDetailsService, AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 

@@ -1,6 +1,7 @@
 package lv.nixx.poc.security.config;
 
 import lombok.Getter;
+import lv.nixx.poc.security.model.ViewName;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -8,9 +9,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.FORBIDDEN)
 public class IllegalViewAccessException extends RuntimeException {
     private final String userName;
-    private final String view;
+    private final ViewName view;
 
-    public IllegalViewAccessException(String userName, String view) {
+    public IllegalViewAccessException(String userName, ViewName view) {
         super();
         this.userName = userName;
         this.view = view;

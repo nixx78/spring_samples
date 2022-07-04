@@ -1,6 +1,6 @@
 package lv.nixx.poc.security.config;
 
-import lv.nixx.poc.security.filter.AccountTypeFilter;
+import lv.nixx.poc.security.filter.PaymentRequestFilter;
 import lv.nixx.poc.security.filter.ViewNameFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -10,27 +10,26 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FilterConfiguration {
 
-    @Autowired
-    private ViewNameFilter viewNameFilter;
-
     @Bean
-    public FilterRegistrationBean<AccountTypeFilter> accountTypeFilterFilterRegistration() {
+    @Autowired
+    public FilterRegistrationBean<PaymentRequestFilter> accountTypeFilterFilterRegistration(PaymentRequestFilter paymentRequestFilter) {
 
-        FilterRegistrationBean<AccountTypeFilter> registration = new FilterRegistrationBean<AccountTypeFilter>();
-        registration.setFilter(new AccountTypeFilter());
-        registration.addUrlPatterns("/account/*");
-        registration.setName("accountFilter");
+        FilterRegistrationBean<PaymentRequestFilter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(paymentRequestFilter);
+        registration.addUrlPatterns("/payment");
+        registration.setName("paymentFilter");
         registration.setOrder(1);
 
         return registration;
     }
 
     @Bean
-    public FilterRegistrationBean<ViewNameFilter> viewNameFilterFilterRegistration() {
+    @Autowired
+    public FilterRegistrationBean<ViewNameFilter> viewNameFilterFilterRegistration(ViewNameFilter viewNameFilter) {
 
-        FilterRegistrationBean<ViewNameFilter> registration = new FilterRegistrationBean<ViewNameFilter>();
+        FilterRegistrationBean<ViewNameFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(viewNameFilter);
-        registration.addUrlPatterns("/view/*");
+        registration.addUrlPatterns("/view/data/*");
         registration.setName("viewNameFilter");
         registration.setOrder(1);
 
