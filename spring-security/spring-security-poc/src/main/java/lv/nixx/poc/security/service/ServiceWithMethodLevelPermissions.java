@@ -9,7 +9,7 @@ import javax.annotation.security.RolesAllowed;
 
 //https://en.wikipedia.org/wiki/JSR_250
 @Service
-public class SomeService {
+public class ServiceWithMethodLevelPermissions {
 
     @RolesAllowed("ROLE_ADMIN")
     public String methodForAdmin() {

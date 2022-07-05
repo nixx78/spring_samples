@@ -1,7 +1,6 @@
 package lv.nixx.poc.security.service;
 
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -26,15 +25,5 @@ public class ControllerTest {
         assertEquals(HttpStatus.OK, res.getStatusCode());
         assertEquals("Success:home", res.getBody());
     }
-
-    @Test
-    public void securedUrlTest() {
-
-        final ResponseEntity<String> res = restTemplate.withBasicAuth("admin", "1")
-                .getForEntity("http://localhost:" + localServerPort + "/perform_login", String.class);
-
-        assertEquals(HttpStatus.OK, res.getStatusCode());
-    }
-
 
 }

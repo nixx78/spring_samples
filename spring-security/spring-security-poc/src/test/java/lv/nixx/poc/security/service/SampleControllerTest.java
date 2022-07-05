@@ -41,24 +41,11 @@ public class SampleControllerTest {
     @Test
     public void nonSecuredHomeEndpointTest() throws Exception {
         mvc.perform(MockMvcRequestBuilders
-                .get("/home", 1)
-                .accept(MediaType.APPLICATION_JSON))
+                        .get("/home", 1)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("Success:home"));
-
     }
-
-//    @Test
-//    public void basicSecuredEndpointTest() throws Exception {
-//        RequestBuilder requestBuilder = formLogin("/perform_login")
-//                .user("admin")
-//                .password("1");
-//
-//        mvc.perform(requestBuilder)
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(cookie().exists("JSESSIONID"));
-//    }
 
 }

@@ -2,7 +2,6 @@ package lv.nixx.poc.security.controller;
 
 import lv.nixx.poc.security.model.CustomUser;
 import lv.nixx.poc.security.service.LoginService;
-import lv.nixx.poc.security.service.SomeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +20,10 @@ public class SampleController {
 
     private static final Logger LOG = LoggerFactory.getLogger(SampleController.class);
 
-    private final SomeService service;
     private final LoginService loginService;
 
     @Autowired
-    public SampleController(SomeService service, LoginService loginService) {
-        this.service = service;
+    public SampleController(LoginService loginService) {
         this.loginService = loginService;
     }
 
@@ -55,21 +52,6 @@ public class SampleController {
     public String homeSample() {
         LOG.info("/home called");
         return "Success:home";
-    }
-
-    @GetMapping("/adminEndpoint")
-    public String endpointForAdmin() {
-        return service.methodForAdmin();
-    }
-
-    @GetMapping("/userEndpoint")
-    public String endpointForUser() {
-        return service.methodForUser();
-    }
-
-    @GetMapping("/allEndpoint")
-    public String allEndpoint() {
-        return service.methodForAll();
     }
 
 
