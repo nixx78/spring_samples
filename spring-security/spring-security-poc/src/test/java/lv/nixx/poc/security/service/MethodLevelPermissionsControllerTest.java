@@ -68,14 +68,14 @@ class MethodLevelPermissionsControllerTest {
     }
 
     @Test
-    @WithUserDetails("user")
+    @WithUserDetails("simple_user")
     void accessEndpointAvailableForAdminWithWrongUser() throws Exception {
         mockMvc.perform(get("/adminEndpoint"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithUserDetails("user")
+    @WithUserDetails("simple_user")
     void accessEndpointAvailableForUser() throws Exception {
         mockMvc.perform(get("/userEndpoint"))
                 .andExpect(status().isOk())

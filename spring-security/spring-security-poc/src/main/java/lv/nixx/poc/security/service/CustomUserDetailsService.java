@@ -1,7 +1,6 @@
 package lv.nixx.poc.security.service;
 
 import lv.nixx.poc.security.model.CustomUser;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,8 +17,8 @@ import static lv.nixx.poc.security.model.ViewName.*;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final Map<String, CustomUser> users = Map.of(
-            "admin", new CustomUser("admin", "1", List.of(new SimpleGrantedAuthority("ROLE_ADMIN")), List.of(View1, View2)),
-            "user", new CustomUser("user", "1", List.of(new SimpleGrantedAuthority("ROLE_USER")), List.of(ViewX))
+            "admin", new CustomUser("admin", "1", List.of("ROLE_ADMIN"), View1, View2),
+            "simple_user", new CustomUser("simple_user", "1", List.of("ROLE_USER"), ViewX)
     );
 
 

@@ -5,9 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-
-//TODO Create tests for filters with different roles
-
+//TODO Create LoginController to get info about current user
+//TODO Separate user configs for local run & tests
 @SpringBootApplication
 public class AppRunner extends SpringBootServletInitializer {
 

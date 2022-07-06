@@ -1,9 +1,15 @@
 package lv.nixx.poc.security.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
-@Data
+@Getter
 public class PaymentRequest {
     String id;
     PaymentOperation operation;
+
+    public PaymentRequest(@JsonProperty("id") String id, @JsonProperty("operation") PaymentOperation operation) {
+        this.id = id;
+        this.operation = operation;
+    }
 }

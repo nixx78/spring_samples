@@ -11,14 +11,14 @@ public class LoginService {
 
     public CustomUser getLoggedInUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth == null ? CustomUser.empty() : (CustomUser) auth.getPrincipal();
+        return auth == null || auth.getPrincipal().equals("anonymousUser") ? CustomUser.empty() : (CustomUser) auth.getPrincipal();
     }
 
     public String getUserName() {
         return getLoggedInUser().getUsername();
     }
 
-    public boolean isViewIsAllowed(ViewName viewName) {
-        return getLoggedInUser().getAvailableViews().contains(viewName);
+    public boolean isViewIsNotAllowed(ViewName viewName) {
+        return !getLoggedInUser().getAvailableViews().contains(viewName);
     }
 }

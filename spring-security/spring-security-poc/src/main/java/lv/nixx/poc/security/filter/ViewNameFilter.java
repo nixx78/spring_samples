@@ -35,7 +35,7 @@ public class ViewNameFilter extends OncePerRequestFilter {
             LOG.info("User try to get view [{}] data", viewName);
             String userName = loginService.getUserName();
 
-            if (!loginService.isViewIsAllowed(viewName)) {
+            if (loginService.isViewIsNotAllowed(viewName)) {
                 httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 String responseToClient = "For user [" + userName + "] view [" + viewName + "] not allowed";
                 httpServletResponse.getWriter().write(responseToClient);

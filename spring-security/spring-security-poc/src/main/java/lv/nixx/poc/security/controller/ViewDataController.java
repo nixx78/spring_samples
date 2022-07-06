@@ -38,7 +38,7 @@ public class ViewDataController {
     @GetMapping("/view/dataCheckInController/{viewName}")
     public String getDataForViewCheckInController(@PathVariable ViewName viewName) {
         String userName = loginService.getUserName();
-        if (!loginService.isViewIsAllowed(viewName)) {
+        if (loginService.isViewIsNotAllowed(viewName)) {
             throw new IllegalViewAccessException(userName, viewName);
         }
         return viewData.get(viewName);
