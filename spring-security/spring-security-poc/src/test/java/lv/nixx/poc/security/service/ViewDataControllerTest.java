@@ -22,16 +22,16 @@ class ViewDataControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @WithUserDetails("admin")
+    @WithUserDetails("userWithAdminRole")
     void checkAdminUser() {
         assertAll(
                 () -> sendRequestAndCheck(ViewName.View1, HttpStatus.OK, "View1 Data"),
-                () -> sendRequestAndCheck(ViewName.ViewX, HttpStatus.FORBIDDEN, "For user [admin] view [ViewX] not allowed")
+                () -> sendRequestAndCheck(ViewName.ViewX, HttpStatus.FORBIDDEN, "For user [userWithAdminRole] view [ViewX] not allowed")
         );
     }
 
     @Test
-    @WithUserDetails("simple_user")
+    @WithUserDetails("userWithSimpleRole")
     void checkUser() throws Exception {
         sendRequestAndCheck(ViewName.ViewX, HttpStatus.OK, "ViewX Data");
     }

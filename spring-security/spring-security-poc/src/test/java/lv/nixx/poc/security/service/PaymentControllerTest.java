@@ -29,16 +29,16 @@ class PaymentControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    @WithUserDetails("admin")
+    @WithUserDetails("userWithAdminRole")
     void paymentFromAdminProcessSuccess() throws Exception {
         sendAndCheckRequest("id.1000", ADD, HttpStatus.OK, "Payment:id.1000 processed");
     }
 
     @Test
-    @WithUserDetails("simple_user")
+    @WithUserDetails("userWithSimpleRole")
     void checkUserRightsProcessing() {
         assertAll(
-                () -> sendAndCheckRequest("id.1000", ADD, HttpStatus.FORBIDDEN, "For user [simple_user] operation [ADD] not allowed"),
+                () -> sendAndCheckRequest("id.1000", ADD, HttpStatus.FORBIDDEN, "For user [userWithSimpleRole] operation [ADD] not allowed"),
                 () -> sendAndCheckRequest("id.7777", UPDATE, HttpStatus.OK, "Payment:id.7777 processed")
         );
 

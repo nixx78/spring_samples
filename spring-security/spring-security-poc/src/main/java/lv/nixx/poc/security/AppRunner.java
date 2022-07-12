@@ -6,7 +6,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 //TODO Create LoginController to get info about current user
-//TODO Separate user configs for local run & tests
 @SpringBootApplication
 public class AppRunner extends SpringBootServletInitializer {
 

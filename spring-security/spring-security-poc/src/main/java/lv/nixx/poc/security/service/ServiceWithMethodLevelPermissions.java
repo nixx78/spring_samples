@@ -21,7 +21,7 @@ public class ServiceWithMethodLevelPermissions {
         return "Success:methodForAll";
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_SIMPLE_USER')")
     public String methodForUser() {
         return "Success:methodForUser";
     }

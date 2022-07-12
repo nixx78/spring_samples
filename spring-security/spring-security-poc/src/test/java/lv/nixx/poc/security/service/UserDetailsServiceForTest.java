@@ -15,12 +15,12 @@ import java.util.Optional;
 import static lv.nixx.poc.security.model.ViewName.*;
 
 @Service
-@Profile("prod")
-public class CustomUserDetailsService implements UserDetailsService {
+@Profile("test")
+public class UserDetailsServiceForTest implements UserDetailsService {
 
     private final Map<String, CustomUser> users = Map.of(
-            "admin", new CustomUser("admin", "1", List.of("ROLE_ADMIN"), View1, View2),
-            "simple_user", new CustomUser("simple_user", "1", List.of("ROLE_SIMPLE_USER"), ViewX)
+            "userWithAdminRole", new CustomUser("userWithAdminRole", "1", List.of("ROLE_ADMIN"), View1, View2),
+            "userWithSimpleRole", new CustomUser("userWithSimpleRole", "1", List.of("ROLE_SIMPLE_USER"), ViewX)
     );
 
 

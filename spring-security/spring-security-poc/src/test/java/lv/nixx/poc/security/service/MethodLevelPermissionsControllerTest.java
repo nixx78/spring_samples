@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.FormLoginRequestBuilder;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,12 +25,13 @@ class MethodLevelPermissionsControllerTest {
 
     @Test
     void loginSuccessTest() throws Exception {
+
         FormLoginRequestBuilder login = formLogin("/perform_login")
-                .user("admin")
+                .user("userWithAdminRole")
                 .password("1");
 
         mockMvc.perform(login)
-                .andExpect(authenticated().withUsername("admin"))
+                .andExpect(authenticated().withUsername("userWithAdminRole"))
                 .andExpect(redirectedUrl("/swagger-ui.html"));
 
     }
@@ -59,7 +61,7 @@ class MethodLevelPermissionsControllerTest {
     }
 
     @Test
-    @WithUserDetails("admin")
+    @WithUserDetails("userWithAdminRole")
     void accessEndpointAvailableForAdmin() throws Exception {
         mockMvc.perform(get("/adminEndpoint"))
                 .andExpect(status().isOk())
@@ -68,14 +70,14 @@ class MethodLevelPermissionsControllerTest {
     }
 
     @Test
-    @WithUserDetails("simple_user")
+    @WithUserDetails("userWithSimpleRole")
     void accessEndpointAvailableForAdminWithWrongUser() throws Exception {
         mockMvc.perform(get("/adminEndpoint"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithUserDetails("simple_user")
+    @WithUserDetails("userWithSimpleRole")
     void accessEndpointAvailableForUser() throws Exception {
         mockMvc.perform(get("/userEndpoint"))
                 .andExpect(status().isOk())
