@@ -1,12 +1,10 @@
 package lv.nixx.poc.security.controller;
 
-import lv.nixx.poc.security.model.CustomUser;
 import lv.nixx.poc.security.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,11 +39,6 @@ public class SampleController {
     public String getBasicSecured() {
         LOG.info("/getBasicSecured called");
         return "Success:basicSecured";
-    }
-
-    @GetMapping(value = "/userDetails", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CustomUser getUserInfo() {
-        return loginService.getLoggedInUser();
     }
 
     @GetMapping("/home")

@@ -21,4 +21,5 @@ public class LoginService {
     public boolean isViewIsNotAllowed(ViewName viewName) {
         return !getLoggedInUser().getAvailableViews().contains(viewName);
     }
+
 }
