@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-//TODO Create LoginController to get info about current user
+//TODO Create Login and Login controller test
+//TODO Continue to execute original request
 @SpringBootApplication
 public class AppRunner extends SpringBootServletInitializer {
 
@@ -13,7 +14,6 @@ public class AppRunner extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(AppRunner.class);
 	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(AppRunner.class, args);
 	}

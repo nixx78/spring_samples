@@ -1,4 +1,4 @@
-package lv.nixx.poc.security.service;
+package lv.nixx.poc.security.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

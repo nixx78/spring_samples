@@ -1,4 +1,4 @@
-package lv.nixx.poc.security.service;
+package lv.nixx.poc.security.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lv.nixx.poc.security.model.PaymentOperation;
@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static lv.nixx.poc.security.model.PaymentOperation.ADD;
 import static lv.nixx.poc.security.model.PaymentOperation.UPDATE;
+import static lv.nixx.poc.security.service.TestUser.userWithAdminRole;
+import static lv.nixx.poc.security.service.TestUser.userWithSimpleRole;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -29,13 +31,13 @@ class PaymentControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    @WithUserDetails("userWithAdminRole")
+    @WithUserDetails(userWithAdminRole)
     void paymentFromAdminProcessSuccess() throws Exception {
         sendAndCheckRequest("id.1000", ADD, HttpStatus.OK, "Payment:id.1000 processed");
     }
 
     @Test
-    @WithUserDetails("userWithSimpleRole")
+    @WithUserDetails(userWithSimpleRole)
     void checkUserRightsProcessing() {
         assertAll(
                 () -> sendAndCheckRequest("id.1000", ADD, HttpStatus.FORBIDDEN, "For user [userWithSimpleRole] operation [ADD] not allowed"),

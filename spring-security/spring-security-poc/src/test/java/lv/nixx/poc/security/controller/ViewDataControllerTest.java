@@ -1,4 +1,4 @@
-package lv.nixx.poc.security.service;
+package lv.nixx.poc.security.controller;
 
 import lv.nixx.poc.security.model.ViewName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static lv.nixx.poc.security.service.TestUser.userWithAdminRole;
+import static lv.nixx.poc.security.service.TestUser.userWithSimpleRole;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,7 +24,7 @@ class ViewDataControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @WithUserDetails("userWithAdminRole")
+    @WithUserDetails(userWithAdminRole)
     void checkAdminUser() {
         assertAll(
                 () -> sendRequestAndCheck(ViewName.View1, HttpStatus.OK, "View1 Data"),
@@ -31,7 +33,7 @@ class ViewDataControllerTest {
     }
 
     @Test
-    @WithUserDetails("userWithSimpleRole")
+    @WithUserDetails(userWithSimpleRole)
     void checkUser() throws Exception {
         sendRequestAndCheck(ViewName.ViewX, HttpStatus.OK, "ViewX Data");
     }

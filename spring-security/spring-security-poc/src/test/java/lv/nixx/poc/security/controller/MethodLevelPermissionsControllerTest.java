@@ -1,15 +1,15 @@
-package lv.nixx.poc.security.service;
+package lv.nixx.poc.security.controller;
 
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.FormLoginRequestBuilder;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static lv.nixx.poc.security.service.TestUser.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
@@ -27,11 +27,11 @@ class MethodLevelPermissionsControllerTest {
     void loginSuccessTest() throws Exception {
 
         FormLoginRequestBuilder login = formLogin("/perform_login")
-                .user("userWithAdminRole")
+                .user(userWithAdminRole)
                 .password("1");
 
         mockMvc.perform(login)
-                .andExpect(authenticated().withUsername("userWithAdminRole"))
+                .andExpect(authenticated().withUsername(userWithAdminRole))
                 .andExpect(redirectedUrl("/swagger-ui.html"));
 
     }
@@ -48,38 +48,38 @@ class MethodLevelPermissionsControllerTest {
 
     @Test
     void accessUnsecuredResourceThenOk() throws Exception {
-        mockMvc.perform(get("/endpointForAll"))
+        mockMvc.perform(get("/method/endpointForAll"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Success:methodForAll"));
     }
 
     @Test
     void accessSecuredResourceUnauthenticatedThenRedirectsToLogin() throws Exception {
-        mockMvc.perform(get("/adminEndpoint"))
+        mockMvc.perform(get("/method/adminEndpoint"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login_page"));
     }
 
     @Test
-    @WithUserDetails("userWithAdminRole")
+    @WithUserDetails(userWithAdminRole)
     void accessEndpointAvailableForAdmin() throws Exception {
-        mockMvc.perform(get("/adminEndpoint"))
+        mockMvc.perform(get("/method/adminEndpoint"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Success:methodForAdmin"));
 
     }
 
     @Test
-    @WithUserDetails("userWithSimpleRole")
+    @WithUserDetails(userWithSimpleRole)
     void accessEndpointAvailableForAdminWithWrongUser() throws Exception {
-        mockMvc.perform(get("/adminEndpoint"))
+        mockMvc.perform(get("/method/adminEndpoint"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithUserDetails("userWithSimpleRole")
+    @WithUserDetails(userWithSimpleRole)
     void accessEndpointAvailableForUser() throws Exception {
-        mockMvc.perform(get("/userEndpoint"))
+        mockMvc.perform(get("/method/userEndpoint"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Success:methodForUser"));
     }
