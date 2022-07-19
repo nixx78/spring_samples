@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-//TODO Create Login and Login controller test
 //TODO Continue to execute original request
+//TODO rule based on parameter value ?
 @SpringBootApplication
 public class AppRunner extends SpringBootServletInitializer {
 

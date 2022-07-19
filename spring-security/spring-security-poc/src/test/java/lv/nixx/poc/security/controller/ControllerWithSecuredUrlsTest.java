@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static lv.nixx.poc.security.service.TestUser.userWithAdminRole;
 import static lv.nixx.poc.security.service.TestUser.userWithSimpleRole;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,7 +27,7 @@ class ControllerWithSecuredUrlsTest {
     @Test
     void nonSecuredHomeEndpointTest() throws Exception {
         mvc.perform(MockMvcRequestBuilders
-                        .get("/home", 1)
+                        .get("/urlBased/home", 1)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -36,7 +37,7 @@ class ControllerWithSecuredUrlsTest {
     @Test
     @WithUserDetails(userWithAdminRole)
     void accessEndpointAvailableForAdmin() throws Exception {
-        mvc.perform(get("/secured"))
+        mvc.perform(get("/urlBased/secured"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Success:secured"));
     }
@@ -44,7 +45,7 @@ class ControllerWithSecuredUrlsTest {
     @Test
     @WithUserDetails(userWithSimpleRole)
     void accessEndpointAvailableForAdminForbidden() throws Exception {
-        mvc.perform(get("/secured"))
+        mvc.perform(get("/urlBased/secured"))
                 .andExpect(status().isForbidden())
                 .andExpect(content().string(""));
     }
@@ -52,10 +53,32 @@ class ControllerWithSecuredUrlsTest {
     @Test
     @WithUserDetails(userWithSimpleRole)
     void basicSecuredIsAvailableTest() throws Exception {
-        mvc.perform(get("/basicSecured"))
+        mvc.perform(get("/urlBased/basicSecured"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Success:basicSecured"));
     }
 
+    @Test
+    @WithUserDetails(userWithAdminRole)
+    void postActionIsAvailableForAdminTest() throws Exception {
+        mvc.perform(post("/urlBased/action").content("action.value"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Action: 'action.value' processed"));
+    }
+
+    @Test
+    @WithUserDetails(userWithSimpleRole)
+    void postActionNotAvailableForSimpleUserTest() throws Exception {
+        mvc.perform(post("/urlBased/action").content("action"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(userWithSimpleRole)
+    void getActionIsAvailableForSimpleUserTest() throws Exception {
+        mvc.perform(get("/urlBased/action"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("'Action' available"));
+    }
 
 }

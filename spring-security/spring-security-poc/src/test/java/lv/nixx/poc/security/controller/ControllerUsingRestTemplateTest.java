@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ControllerTest {
+public class ControllerUsingRestTemplateTest {
 
     @LocalServerPort
     private int localServerPort;
@@ -21,7 +21,7 @@ public class ControllerTest {
 
     @Test
     public void unsecuredUrlTest() {
-        final ResponseEntity<String> res = restTemplate.getForEntity("http://localhost:" + localServerPort + "/home", String.class);
+        final ResponseEntity<String> res = restTemplate.getForEntity("http://localhost:" + localServerPort + "/urlBased/home", String.class);
         assertEquals(HttpStatus.OK, res.getStatusCode());
         assertEquals("Success:home", res.getBody());
     }
