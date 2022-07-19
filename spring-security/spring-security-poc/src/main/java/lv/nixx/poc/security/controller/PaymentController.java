@@ -1,7 +1,9 @@
 package lv.nixx.poc.security.controller;
 
 import lv.nixx.poc.security.model.PaymentRequest;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class PaymentController {

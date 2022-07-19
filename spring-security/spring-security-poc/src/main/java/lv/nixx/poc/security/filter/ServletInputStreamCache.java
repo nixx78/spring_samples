@@ -1,12 +1,11 @@
 package lv.nixx.poc.security.filter;
 
 
+import javax.servlet.ReadListener;
+import javax.servlet.ServletInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import javax.servlet.ReadListener;
-import javax.servlet.ServletInputStream;
 
 public class ServletInputStreamCache extends ServletInputStream {
 

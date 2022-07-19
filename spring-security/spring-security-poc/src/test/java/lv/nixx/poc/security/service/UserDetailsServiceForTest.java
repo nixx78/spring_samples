@@ -13,7 +13,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import static lv.nixx.poc.security.model.ViewName.*;
-import static lv.nixx.poc.security.service.TestUser.*;
+import static lv.nixx.poc.security.service.TestUser.userWithAdminRole;
+import static lv.nixx.poc.security.service.TestUser.userWithSimpleRole;
 
 @Service
 @Profile("test")

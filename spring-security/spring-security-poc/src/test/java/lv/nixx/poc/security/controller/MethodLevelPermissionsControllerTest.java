@@ -10,7 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static lv.nixx.poc.security.service.TestUser.userWithAdminRole;
 import static lv.nixx.poc.security.service.TestUser.userWithSimpleRole;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
