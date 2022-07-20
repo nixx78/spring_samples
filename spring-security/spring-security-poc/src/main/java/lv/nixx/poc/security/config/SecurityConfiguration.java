@@ -35,11 +35,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/method/**").permitAll()
 
-                .antMatchers("/urlBased/basicSecured").hasAnyRole("ADMIN","SIMPLE_USER")
+                .antMatchers("/urlBased/basicSecured").hasAnyRole("ADMIN", "SIMPLE_USER")
                 .antMatchers("/urlBased/secured").hasRole("ADMIN")
                 .antMatchers("/urlBased/home").permitAll()
                 .antMatchers(GET, "/urlBased/action").hasRole("SIMPLE_USER")
                 .antMatchers(POST, "/urlBased/action").hasRole("ADMIN")
+
+//                .regexMatchers("\\/urlBased\\/process\\?action=power(&.*|$)").hasRole("POWER")
+//                .regexMatchers("\\/urlBased\\/process\\?action=power(&.*|$)").hasRole("POWER")
 
                 .antMatchers("/userInfo").authenticated()
                 .antMatchers("/userDetails").authenticated()

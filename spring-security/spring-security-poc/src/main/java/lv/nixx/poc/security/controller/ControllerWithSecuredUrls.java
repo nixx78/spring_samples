@@ -1,5 +1,6 @@
 package lv.nixx.poc.security.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,12 @@ public class ControllerWithSecuredUrls {
     public String getAvailableAction() {
         LOG.info("/action called");
         return "'Action' available";
+    }
+
+    @GetMapping("/process")
+    public String process(@Parameter String action) {
+        LOG.info("/process called");
+        return "Process action: " + action;
     }
 
     @PostMapping("/action")
