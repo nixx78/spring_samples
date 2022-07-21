@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final Map<String, CustomUser> users = Map.of(
             "admin", new CustomUser("admin", "1", List.of("ROLE_ADMIN"), View1, View2),
             "simple_user", new CustomUser("simple_user", "1", List.of("ROLE_SIMPLE_USER"), ViewX),
-            "power_user", new CustomUser("power_user", "1", List.of("ROLE_POWER"), ViewX)
+            "power_user", new CustomUser("power_user", "1", List.of("ROLE_ADMIN", "ROLE_POWER"), ViewX)
     );
 
 

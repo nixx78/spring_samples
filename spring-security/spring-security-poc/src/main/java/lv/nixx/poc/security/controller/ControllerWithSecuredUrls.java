@@ -17,7 +17,7 @@ public class ControllerWithSecuredUrls {
     private static final Logger LOG = LoggerFactory.getLogger(ControllerWithSecuredUrls.class);
 
     @GetMapping("/secured")
-    public ResponseEntity<String> getSample(@CookieValue(value = "count", required = false) Integer count , HttpServletResponse response) {
+    public ResponseEntity<String> getSample(@CookieValue(value = "count", required = false) Integer count, HttpServletResponse response) {
         int newCount = count == null ? 1 : count + 1;
 
         response.addCookie(new Cookie("count", String.valueOf(newCount)));
@@ -55,5 +55,16 @@ public class ControllerWithSecuredUrls {
         return "Success:home";
     }
 
+    @GetMapping("/twoRolesRequired")
+    public String twoRolesRequired() {
+        LOG.info("/twoRolesRequired called");
+        return "Success:twoRolesRequired";
+    }
+
+    @GetMapping("/process/{name}")
+    public String processActionWithPathVariable(@PathVariable String name) {
+        LOG.info("Process action [{}]", name);
+        return "Success:action:" + name;
+    }
 
 }

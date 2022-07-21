@@ -19,6 +19,9 @@ import static org.springframework.http.HttpMethod.POST;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private AccessToActionChecker accessToActionChecker;
+
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/v2/api-docs",
@@ -38,8 +41,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/urlBased/basicSecured").hasAnyRole("ADMIN", "SIMPLE_USER")
                 .antMatchers("/urlBased/secured").hasRole("ADMIN")
                 .antMatchers("/urlBased/home").permitAll()
+                .antMatchers("/urlBased/twoRolesRequired").access("hasRole('ADMIN') and hasRole('POWER')")
+
                 .antMatchers(GET, "/urlBased/action").hasRole("SIMPLE_USER")
                 .antMatchers(POST, "/urlBased/action").hasRole("ADMIN")
+
+                .antMatchers("/urlBased/process/{name}")
+                .access("@accessToActionChecker.checkUserHasAccessToAction(authentication,#name)")
 
 //                .regexMatchers("\\/urlBased\\/process\\?action=power(&.*|$)").hasRole("POWER")
 //                .regexMatchers("\\/urlBased\\/process\\?action=power(&.*|$)").hasRole("POWER")

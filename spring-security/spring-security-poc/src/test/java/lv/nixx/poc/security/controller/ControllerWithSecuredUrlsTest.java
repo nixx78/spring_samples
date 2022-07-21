@@ -25,7 +25,7 @@ class ControllerWithSecuredUrlsTest {
     private MockMvc mvc;
 
     @Test
-    void nonSecuredHomeEndpointTest() throws Exception {
+    void nonSecuredHomeEndpoint() throws Exception {
         mvc.perform(MockMvcRequestBuilders
                         .get("/urlBased/home", 1)
                         .accept(MediaType.APPLICATION_JSON))
@@ -52,7 +52,7 @@ class ControllerWithSecuredUrlsTest {
 
     @Test
     @WithUserDetails(userWithSimpleRole)
-    void basicSecuredIsAvailableTest() throws Exception {
+    void basicSecuredIsAvailable() throws Exception {
         mvc.perform(get("/urlBased/basicSecured"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Success:basicSecured"));
@@ -60,7 +60,7 @@ class ControllerWithSecuredUrlsTest {
 
     @Test
     @WithUserDetails(userWithAdminRole)
-    void postActionIsAvailableForAdminTest() throws Exception {
+    void postActionIsAvailableForAdmin() throws Exception {
         mvc.perform(post("/urlBased/action").content("action.value"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Action: 'action.value' processed"));
@@ -68,17 +68,33 @@ class ControllerWithSecuredUrlsTest {
 
     @Test
     @WithUserDetails(userWithSimpleRole)
-    void postActionNotAvailableForSimpleUserTest() throws Exception {
+    void postActionNotAvailableForSimpleUser() throws Exception {
         mvc.perform(post("/urlBased/action").content("action"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @WithUserDetails(userWithSimpleRole)
-    void getActionIsAvailableForSimpleUserTest() throws Exception {
+    void getActionIsAvailableForSimpleUser() throws Exception {
         mvc.perform(get("/urlBased/action"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("'Action' available"));
     }
+
+    @Test
+    @WithUserDetails(userWithAdminRole)
+    void processActionWithPathParameterSuccess() throws Exception {
+        mvc.perform(get("/urlBased/process/action1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Success:action:action1"));
+    }
+
+    @Test
+    @WithUserDetails(userWithAdminRole)
+    void processActionWithPathParameterForbidden() throws Exception {
+        mvc.perform(get("/urlBased/process/UNSUPPORTED_ACTION"))
+                .andExpect(status().isForbidden());
+    }
+
 
 }

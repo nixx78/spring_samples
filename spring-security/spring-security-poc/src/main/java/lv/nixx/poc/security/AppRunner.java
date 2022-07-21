@@ -8,7 +8,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 //TODO Continue to execute original request
 //TODO rule based on parameter value -> https://stackoverflow.com/questions/53726109/spring-boot-ant-matchers-parameters
 
-// Access by path variable: https://stackoverflow.com/questions/41539484/spring-security-rest-api-roles-based-on-url-parameters
 @SpringBootApplication
 public class AppRunner extends SpringBootServletInitializer {
 
