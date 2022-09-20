@@ -33,65 +33,99 @@ public class CustomResponseAuthenticationConverter {
             Saml2AuthenticationToken token = responseToken.getToken();
             Response response = responseToken.getResponse();
 
-            Assertion assertion = CollectionUtils.firstElement(response.getAssertions());
-            String username = assertion.getSubject().getNameID().getValue();
-            Map<String, List<Object>> attributes = getAssertionAttributes(assertion);
+            AttributesWrapper attributesWrapper = new AttributesWrapper(CollectionUtils.firstElement(response.getAssertions()));
+            String username = attributesWrapper.getUsername();
 
-            DefaultSaml2AuthenticatedPrincipal principal = new DefaultSaml2AuthenticatedPrincipal(username, attributes);
+            DefaultSaml2AuthenticatedPrincipal principal = new DefaultSaml2AuthenticatedPrincipal(username, attributesWrapper.attribs);
 
             String registrationId = token.getRelyingPartyRegistration().getRegistrationId();
             principal.setRelyingPartyRegistrationId(registrationId);
 
-            List<GrantedAuthority> roles = attributes.get("ROLES")
+            List<GrantedAuthority> roles = attributesWrapper.getAttributes("ROLES")
                     .stream()
                     .map(String::valueOf)
                     .map(t -> rolesMapping.getOrDefault(t, new SimpleGrantedAuthority("ROLE_UNKNOWN")))
                     .collect(Collectors.toList());
 
+            String displayName = attributesWrapper.getAttribute("FNAME") + "," + attributesWrapper.getAttribute("LNAME");
+
             Saml2Authentication auth = new Saml2Authentication(principal, token.getSaml2Response(), roles);
-            auth.setDetails(new AppUser(username, roles));
+            auth.setDetails(new AppUser(username, displayName, roles));
 
             return auth;
         };
     }
 
-    private static Map<String, List<Object>> getAssertionAttributes(Assertion assertion) {
-        Map<String, List<Object>> attributeMap = new LinkedHashMap<>();
+    static class AttributesWrapper {
 
-        for (AttributeStatement attributeStatement : assertion.getAttributeStatements()) {
+        private final Map<String, List<Object>> attribs;
+        private final Assertion assertion;
 
-            for (Attribute attribute : attributeStatement.getAttributes()) {
-                List<Object> attributeValues = new ArrayList<>();
+        AttributesWrapper(Assertion assertion) {
+            this.attribs = getAssertionAttributes(assertion);
+            this.assertion = assertion;
+        }
 
-                for (XMLObject xmlObject : attribute.getAttributeValues()) {
-                    Object attributeValue = getXmlObjectValue(xmlObject);
-                    if (attributeValue != null) {
-                        attributeValues.add(attributeValue);
+        String getUsername() {
+            return assertion.getSubject().getNameID().getValue();
+        }
+
+        List<String> getAttributes(String key) {
+            return attribs.getOrDefault(key, Collections.emptyList())
+                    .stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.toList());
+        }
+
+        String getAttribute(String key) {
+            return attribs.getOrDefault(key, Collections.emptyList())
+                    .stream()
+                    .findFirst()
+                    .map(String::valueOf)
+                    .orElse(null);
+        }
+
+        private Map<String, List<Object>> getAssertionAttributes(Assertion assertion) {
+            Map<String, List<Object>> attributeMap = new LinkedHashMap<>();
+
+            for (AttributeStatement attributeStatement : assertion.getAttributeStatements()) {
+
+                for (Attribute attribute : attributeStatement.getAttributes()) {
+                    List<Object> attributeValues = new ArrayList<>();
+
+                    for (XMLObject xmlObject : attribute.getAttributeValues()) {
+                        Object attributeValue = getXmlObjectValue(xmlObject);
+                        if (attributeValue != null) {
+                            attributeValues.add(attributeValue);
+                        }
                     }
-                }
 
-                attributeMap.put(attribute.getName(), attributeValues);
+                    attributeMap.put(attribute.getName(), attributeValues);
+                }
+            }
+
+            return attributeMap;
+        }
+
+        private Object getXmlObjectValue(XMLObject xmlObject) {
+            if (xmlObject instanceof XSAny) {
+                return ((XSAny) xmlObject).getTextContent();
+            } else if (xmlObject instanceof XSString) {
+                return ((XSString) xmlObject).getValue();
+            } else if (xmlObject instanceof XSInteger) {
+                return ((XSInteger) xmlObject).getValue();
+            } else if (xmlObject instanceof XSURI) {
+                return ((XSURI) xmlObject).getValue();
+            } else if (xmlObject instanceof XSBoolean) {
+                XSBooleanValue xsBooleanValue = ((XSBoolean) xmlObject).getValue();
+                return xsBooleanValue != null ? xsBooleanValue.getValue() : null;
+            } else {
+                return xmlObject instanceof XSDateTime ? Instant.ofEpochMilli(Objects.requireNonNull(((XSDateTime) xmlObject).getValue()).getMillis()) : null;
             }
         }
 
-        return attributeMap;
+
     }
 
-    private static Object getXmlObjectValue(XMLObject xmlObject) {
-        if (xmlObject instanceof XSAny) {
-            return ((XSAny) xmlObject).getTextContent();
-        } else if (xmlObject instanceof XSString) {
-            return ((XSString) xmlObject).getValue();
-        } else if (xmlObject instanceof XSInteger) {
-            return ((XSInteger) xmlObject).getValue();
-        } else if (xmlObject instanceof XSURI) {
-            return ((XSURI) xmlObject).getValue();
-        } else if (xmlObject instanceof XSBoolean) {
-            XSBooleanValue xsBooleanValue = ((XSBoolean) xmlObject).getValue();
-            return xsBooleanValue != null ? xsBooleanValue.getValue() : null;
-        } else {
-            return xmlObject instanceof XSDateTime ? Instant.ofEpochMilli(Objects.requireNonNull(((XSDateTime) xmlObject).getValue()).getMillis()) : null;
-        }
-    }
 
 }

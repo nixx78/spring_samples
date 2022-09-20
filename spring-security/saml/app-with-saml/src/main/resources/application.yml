@@ -27,3 +27,8 @@ spring:
                 sign-request: false
                 url: http://localhost:8081/idp-provider/saml/idp/select
               metadata-uri: http://localhost:8081/idp-provider/saml/idp/metadata
+
+app:
+  authentication:
+     success-path: /authSuccess
+     failure-path: /authFail

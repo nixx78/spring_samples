@@ -12,6 +12,10 @@ public class AppUser {
 
     @Getter
     private final String id;
+
+    @Getter
+    private final String displayName;
+
     private final Collection<GrantedAuthority> roles;
 
     public Collection<String> getRoles() {
