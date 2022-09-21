@@ -42,7 +42,6 @@ public class AppSecurityConfig {
         // This class is deprecated, but you have to use it if you're using OpenSAML < 4.0
         OpenSamlAuthenticationProvider authenticationProvider = new OpenSamlAuthenticationProvider();
         authenticationProvider.setAssertionValidator(OpenSamlAuthenticationProvider.createDefaultAssertionValidator());
-        authenticationProvider.setResponseAuthenticationConverter(CustomResponseAuthenticationConverter.createResponseAuthenticationConverter());
         http
                 .saml2Login(saml2 ->
                         saml2.authenticationManager(new ProviderManager(authenticationProvider))
@@ -52,7 +51,13 @@ public class AppSecurityConfig {
                 .addFilterBefore(filter, Saml2WebSsoAuthenticationFilter.class)
                 .antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/**").authenticated();
+                .antMatchers("/endpointForAdmin").hasRole("ADMIN")
+                .antMatchers("/endpointForAll").hasAnyRole("RO", "MANAGER")
+                .antMatchers("/openEndpoint").permitAll()
+                .anyRequest().authenticated();
+
+        authenticationProvider.setResponseAuthenticationConverter(CustomResponseAuthenticationConverter.createResponseAuthenticationConverter());
+
 
         return http.build();
     }

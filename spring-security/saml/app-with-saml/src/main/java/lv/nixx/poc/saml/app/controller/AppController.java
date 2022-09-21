@@ -16,4 +16,19 @@ public class AppController {
         return "failMessage:" + System.currentTimeMillis();
     }
 
+    @GetMapping("/endpointForAdmin")
+    public String getMessageForAdmin() {
+        return "message for Admin:" + System.currentTimeMillis();
+    }
+
+    @GetMapping("/endpointForAll")
+    public String getMessageForAll() {
+        return "message for All:" + System.currentTimeMillis();
+    }
+
+    @GetMapping("/openEndpoint")
+    public String getMessageOpenEndpoint() {
+        return "message for 'OpenEndpoint':" + System.currentTimeMillis();
+    }
+
 }
