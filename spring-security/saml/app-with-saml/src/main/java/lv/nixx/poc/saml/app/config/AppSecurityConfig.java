@@ -25,11 +25,14 @@ import javax.servlet.http.HttpServletRequest;
 @Configuration
 public class AppSecurityConfig {
 
+    //TODO https://backendstory.com/spring-security-authentication-architecture-explained-in-depth/
+
     @Bean
     @Autowired
     public SecurityFilterChain config(HttpSecurity http,
                                       RelyingPartyRegistrationRepository relyingPartyRegistrationRepository,
-                                      AuthenticationSuccessHandler successHandler
+                                      AuthenticationSuccessHandler successHandler,
+                                      CustomResponseAuthenticationConverter customResponseAuthenticationConverter
 
     ) throws Exception {
         Converter<HttpServletRequest, RelyingPartyRegistration> relyingPartyRegistrationResolver =
@@ -56,7 +59,7 @@ public class AppSecurityConfig {
                 .antMatchers("/openEndpoint").permitAll()
                 .anyRequest().authenticated();
 
-        authenticationProvider.setResponseAuthenticationConverter(CustomResponseAuthenticationConverter.createResponseAuthenticationConverter());
+        authenticationProvider.setResponseAuthenticationConverter(customResponseAuthenticationConverter.createResponseAuthenticationConverter());
 
 
         return http.build();

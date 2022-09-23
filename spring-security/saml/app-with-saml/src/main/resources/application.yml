@@ -30,5 +30,10 @@ spring:
 
 app:
   authentication:
-     success-path: /authSuccess
-     failure-path: /authFail
+    success-path: /authSuccess
+    failure-path: /authFail
+  roles:
+    mapping:
+      RES_MANAGER: ROLE_MANAGER
+      RES_READ_ONLY: ROLE_RO
+      RES_ADMIN: ROLE_ADMIN

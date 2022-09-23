@@ -7,28 +7,32 @@ import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.core.Attribute;
 import org.opensaml.saml.saml2.core.AttributeStatement;
 import org.opensaml.saml.saml2.core.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.saml2.provider.service.authentication.DefaultSaml2AuthenticatedPrincipal;
 import org.springframework.security.saml2.provider.service.authentication.OpenSamlAuthenticationProvider;
 import org.springframework.security.saml2.provider.service.authentication.Saml2Authentication;
 import org.springframework.security.saml2.provider.service.authentication.Saml2AuthenticationToken;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class CustomResponseAuthenticationConverter {
 
-    private static final Map<String, SimpleGrantedAuthority> rolesMapping = Map.of(
-            "RES_MANAGER", new SimpleGrantedAuthority("ROLE_MANAGER"),
-            "RES_READ_ONLY", new SimpleGrantedAuthority("ROLE_RO"),
-            "RES_ADMIN", new SimpleGrantedAuthority("ROLE_ADMIN")
-    );
+    private final RoleMapper roleMapper;
 
-    public static Converter<OpenSamlAuthenticationProvider.ResponseToken, Saml2Authentication> createResponseAuthenticationConverter() {
+    @Autowired
+    public CustomResponseAuthenticationConverter(RoleMapper roleMapper) {
+        this.roleMapper = roleMapper;
+    }
+
+    public Converter<OpenSamlAuthenticationProvider.ResponseToken, Saml2Authentication> createResponseAuthenticationConverter() {
+
         return (responseToken) -> {
             Saml2AuthenticationToken token = responseToken.getToken();
             Response response = responseToken.getResponse();
@@ -44,7 +48,7 @@ public class CustomResponseAuthenticationConverter {
             List<GrantedAuthority> roles = attributesWrapper.getAttributes("ROLES")
                     .stream()
                     .map(String::valueOf)
-                    .map(t -> rolesMapping.getOrDefault(t, new SimpleGrantedAuthority("ROLE_UNKNOWN")))
+                    .map(roleMapper::mapRole)
                     .collect(Collectors.toList());
 
             String displayName = attributesWrapper.getAttribute("FNAME") + "," + attributesWrapper.getAttribute("LNAME");
