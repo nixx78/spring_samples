@@ -12,6 +12,9 @@ logging:
     org.opensaml.xmlsec: TRACE
 
 spring:
+  profiles:
+    active: "yaml"
+#    active: "saml_manual_config"
   security:
     saml2:
       relyingparty:
