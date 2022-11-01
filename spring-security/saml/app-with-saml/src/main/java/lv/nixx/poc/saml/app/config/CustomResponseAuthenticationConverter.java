@@ -10,7 +10,6 @@ import org.opensaml.saml.saml2.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.saml2.provider.service.authentication.DefaultSaml2AuthenticatedPrincipal;
 import org.springframework.security.saml2.provider.service.authentication.OpenSamlAuthenticationProvider;
 import org.springframework.security.saml2.provider.service.authentication.Saml2Authentication;
 import org.springframework.security.saml2.provider.service.authentication.Saml2AuthenticationToken;
@@ -40,10 +39,10 @@ public class CustomResponseAuthenticationConverter {
             AttributesWrapper attributesWrapper = new AttributesWrapper(CollectionUtils.firstElement(response.getAssertions()));
             String username = attributesWrapper.getUsername();
 
-            DefaultSaml2AuthenticatedPrincipal principal = new DefaultSaml2AuthenticatedPrincipal(username, attributesWrapper.attribs);
+
+
 
             String registrationId = token.getRelyingPartyRegistration().getRegistrationId();
-            principal.setRelyingPartyRegistrationId(registrationId);
 
             List<GrantedAuthority> roles = attributesWrapper.getAttributes("ROLES")
                     .stream()
@@ -53,10 +52,10 @@ public class CustomResponseAuthenticationConverter {
 
             String displayName = attributesWrapper.getAttribute("FNAME") + "," + attributesWrapper.getAttribute("LNAME");
 
-            Saml2Authentication auth = new Saml2Authentication(principal, token.getSaml2Response(), roles);
-            auth.setDetails(new AppUser(username, displayName, roles));
+            CustomAuthenticationPrincipal principal = new CustomAuthenticationPrincipal(username, attributesWrapper.attribs, new AppUser(username, displayName, roles));
+            principal.setRelyingPartyRegistrationId(registrationId);
 
-            return auth;
+            return new Saml2Authentication(principal, token.getSaml2Response(), roles);
         };
     }
 
