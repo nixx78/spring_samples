@@ -74,9 +74,8 @@ public class SecurityConfiguration {
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")
-                .deleteCookies("JSESSIONID");
-
-
+                .deleteCookies("JSESSIONID")
+                .and().exceptionHandling().accessDeniedPage("/txt");
 
 
         return http.build();
