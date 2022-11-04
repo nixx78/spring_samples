@@ -81,12 +81,12 @@ public class SecurityConfiguration {
                 .loginProcessingUrl("/perform_login")
                 .defaultSuccessUrl("/swagger-ui.html", true)
                 .failureHandler(new CustomAuthenticationFailureHandler())
-                .and().exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
+                .and()
+                        .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")
                 .deleteCookies("JSESSIONID");
-
 
         return http.build();
     }
@@ -98,6 +98,7 @@ public class SecurityConfiguration {
 
     static class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
+        // This class handle event, when Authenticated user try to access to not allowed resource
         @Override
         public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) {
             response.setHeader("CustomAccessDeniedHandler_Error", accessDeniedException.getMessage());
@@ -106,6 +107,8 @@ public class SecurityConfiguration {
     }
 
     static class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
+
+        // This class handle event,when user login fail: wrong user/password
         @Override
         public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
             int returnStatus = HttpStatus.UNAUTHORIZED.value();
