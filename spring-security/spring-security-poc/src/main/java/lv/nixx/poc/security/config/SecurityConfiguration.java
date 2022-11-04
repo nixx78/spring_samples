@@ -3,13 +3,22 @@ package lv.nixx.poc.security.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
@@ -71,11 +80,12 @@ public class SecurityConfiguration {
                 .loginPage("/login_page")
                 .loginProcessingUrl("/perform_login")
                 .defaultSuccessUrl("/swagger-ui.html", true)
+                .failureHandler(new CustomAuthenticationFailureHandler())
+                .and().exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")
-                .deleteCookies("JSESSIONID")
-                .and().exceptionHandling().accessDeniedPage("/txt");
+                .deleteCookies("JSESSIONID");
 
 
         return http.build();
@@ -84,6 +94,29 @@ public class SecurityConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
+    }
+
+    static class CustomAccessDeniedHandler implements AccessDeniedHandler {
+
+        @Override
+        public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) {
+            response.setHeader("CustomAccessDeniedHandler_Error", accessDeniedException.getMessage());
+            response.setStatus(HttpStatus.FORBIDDEN.value());
+        }
+    }
+
+    static class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
+        @Override
+        public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
+            int returnStatus = HttpStatus.UNAUTHORIZED.value();
+
+            if (exception instanceof InternalAuthenticationServiceException) {
+                returnStatus = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            }
+
+            response.setHeader("CustomAuthenticationFailureHandler_Error", exception.getMessage());
+            response.setStatus(returnStatus);
+        }
     }
 
 }

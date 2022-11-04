@@ -27,6 +27,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) {
+
+        if (s.equalsIgnoreCase("error")) {
+            throw new IllegalStateException("Exception during user authentication");
+        }
+
         return Optional.ofNullable(users.get(s)).map(c -> {
             c.setLoginTime(new Date().toString());
             return c;
