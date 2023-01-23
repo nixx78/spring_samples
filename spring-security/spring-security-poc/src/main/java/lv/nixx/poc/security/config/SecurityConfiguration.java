@@ -80,6 +80,8 @@ public class SecurityConfiguration {
                 .loginPage("/login_page")
                 .loginProcessingUrl("/perform_login")
                 .defaultSuccessUrl("/swagger-ui.html", true)
+                //TODO Create handler sample there
+                //.successHandler()
                 .failureHandler(new CustomAuthenticationFailureHandler())
                 .and()
                         .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
