@@ -3,7 +3,7 @@ package lv.nixx.poc.spring.ioc;
 import org.springframework.context.annotation.*;
 
 @org.springframework.context.annotation.Configuration("appConfig")
-@ComponentScan(basePackages = "lv.nixx.poc.spring.ioc")
+@ComponentScan(basePackages = "lv.nixx.poc.spring")
 public class Configuration {
 
     @Bean

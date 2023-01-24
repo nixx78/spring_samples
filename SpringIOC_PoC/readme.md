@@ -1,6 +1,10 @@
 # Описание проекта
 Проект содержит оснывные случаи использования Spring Core Framework
 
-1. Profile
-2. IoC
-3. Spring events ?!
+## Profile
+## IoC
+## Spring event
+* Publisher - Listeners. Разные способы создания, классический подход и при помощи аннотации
+* Обрабтака ответа от Listener.
+* Listener с SpEL условием
+* Системные событие Spring

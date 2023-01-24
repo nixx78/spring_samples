@@ -1,6 +1,7 @@
-package lv.nixx.poc.spring.profile;
+package lv.nixx.poc.spring;
 
 import lv.nixx.poc.spring.complex.service.IService;
+import lv.nixx.poc.spring.profile.ConfigWithMultipleProfiles;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class AppWithProfile {
