@@ -1,8 +1,7 @@
 package lv.nixx.poc.rest.configuration;
 
-import lv.nixx.poc.rest.service.Component1;
+import lv.nixx.poc.rest.service.ApplicationComponent;
 import org.apache.derby.jdbc.ClientDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.actuate.health.Status;
@@ -15,19 +14,11 @@ import javax.sql.DataSource;
 @Configuration
 public class AppConfig {
 
-	private Component1 component1;
-
-	@Autowired
-	public void setComponent1(Component1 component1) {
-		this.component1 = component1;
-	}
-
 	@Bean
-	public HealthIndicator comp1HealthIndicator() {
-
+	public HealthIndicator comp1HealthIndicator(ApplicationComponent applicationComponent) {
 		return () -> Health.status(Status.UP)
 				.withDetail("detail1", "text1")
-				.withDetail("message", component1.getStatusMessage())
+				.withDetail("message", applicationComponent.getStatusMessage())
 				.build();
 	}
 
