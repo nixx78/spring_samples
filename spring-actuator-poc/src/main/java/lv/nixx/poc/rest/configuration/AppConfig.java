@@ -1,11 +1,12 @@
 package lv.nixx.poc.rest.configuration;
 
 import lv.nixx.poc.rest.service.ApplicationComponent;
-import org.apache.derby.jdbc.ClientDataSource;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.actuate.health.Status;
 import org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,31 +24,20 @@ public class AppConfig {
 	}
 
 	@Bean
-	public DataSource derbyDataSource(){
-		ClientDataSource ds = new ClientDataSource();
-		ds.setServerName ("localhost");
-		ds.setPortNumber(1527);
-		ds.setDatabaseName ("derbyDB");
-		ds.setUser("admin");
-		ds.setPassword("admin");
-		return ds;
+	@ConfigurationProperties(prefix="spring.datasource")
+	public DataSource primaryDataSource() {
+		return DataSourceBuilder.create().build();
 	}
 
-    @Bean
-    public DataSource derbyDataSource1(){
-        ClientDataSource ds = new ClientDataSource();
-        ds.setServerName ("localhost");
-        ds.setPortNumber(1527);
-        ds.setDatabaseName ("derbyDB");
-        ds.setUser("admin");
-        ds.setPassword("admin");
-        return ds;
-    }
+	@Bean
+	@ConfigurationProperties(prefix="spring.datasource.alpha")
+	public DataSource alphaDataSource() {
+		return DataSourceBuilder.create().build();
+	}
 
 	@Bean
-	public HealthIndicator dbName1HealthIndicator() {
-	    // Custom DB checker
-		return new DataSourceHealthIndicator(derbyDataSource(), "select current_timestamp from sysibm.sysdummy1");
+	public HealthIndicator alphaDsHealthIndicator(DataSource alphaDataSource) {
+		return new DataSourceHealthIndicator(alphaDataSource, "select now()");
 	}
 
 
