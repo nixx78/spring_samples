@@ -1,4 +1,4 @@
-package lv.nixx.poc.rest;
+package lv.nixx.poc.actuator;
 
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health;

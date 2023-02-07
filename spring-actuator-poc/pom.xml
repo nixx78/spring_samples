@@ -16,7 +16,7 @@
 	</parent>
 
 	<properties>
-		<start-class>lv.nixx.poc.rest.Runner</start-class>
+		<start-class>lv.nixx.poc.actuator.AppRunner</start-class>
 		<swagger.version>2.6.1</swagger.version>
 		<derby.version>10.11.1.1</derby.version>
 		<java.version>17</java.version>
@@ -43,6 +43,12 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.32</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.14</version>
 		</dependency>
 
 		<dependency>
