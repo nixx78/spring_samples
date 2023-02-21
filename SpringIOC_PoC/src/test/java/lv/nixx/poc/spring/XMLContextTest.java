@@ -10,10 +10,11 @@ class XMLContextTest {
 
     @Test
     void xmlContextTest() {
+
         ApplicationContext context = new ClassPathXmlApplicationContext("app.xml");
         HelloBean bean = context.getBean(HelloBean.class);
 
-        assertEquals("HelloBean says hello!!!", bean.getHello());
+        assertEquals("HelloBean says hello to:Name.Value,Surname.Value", bean.getHello());
     }
 
 }
