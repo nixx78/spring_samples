@@ -1,6 +1,7 @@
 package lv.nixx.poc.saml.app.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,6 +30,11 @@ public class AppController {
     @GetMapping("/openEndpoint")
     public String getMessageOpenEndpoint() {
         return "message for 'OpenEndpoint':" + System.currentTimeMillis();
+    }
+
+    @GetMapping("/authSuccessWithParameters")
+    public String authSuccessWithParameters(@RequestParam("p") String param) {
+        return "AuthSuccessMessage: " + param + ":" + System.currentTimeMillis();
     }
 
 }

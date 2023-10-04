@@ -4,3 +4,6 @@ Profiles:
 
     - saml_manual_config - configure SAML using java configuration
     - yaml - configuration from application.yaml file
+
+Application endpoint:
+http://localhost:8080/AppWithSAML/
