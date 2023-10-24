@@ -73,6 +73,8 @@ public class SecurityConfiguration {
                 .antMatchers("/view/*").authenticated()
                 .antMatchers("/payment/*").authenticated()
 
+                .antMatchers("/endpointWithHandler").hasAnyRole("ADMIN")
+
                 .antMatchers("/login*").permitAll()
                 .anyRequest().authenticated()
                 .and()

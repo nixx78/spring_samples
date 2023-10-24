@@ -20,3 +20,6 @@ https://en.wikipedia.org/wiki/JSR_250
 
 ### Тестирование по помощи RestTemplate
 * ControllerTest
+
+### Получение username в Handler
+* EndpointWithHandlerController
