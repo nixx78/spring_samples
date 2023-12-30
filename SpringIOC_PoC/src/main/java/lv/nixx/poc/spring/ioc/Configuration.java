@@ -4,6 +4,7 @@ import org.springframework.context.annotation.*;
 
 @org.springframework.context.annotation.Configuration("appConfig")
 @ComponentScan(basePackages = "lv.nixx.poc.spring")
+@PropertySource("classpath:application.properties")
 public class Configuration {
 
     @Bean

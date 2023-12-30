@@ -10,7 +10,6 @@ class XMLContextTest {
 
     @Test
     void xmlContextTest() {
-
         ApplicationContext context = new ClassPathXmlApplicationContext("app.xml");
         HelloBean bean = context.getBean(HelloBean.class);
 

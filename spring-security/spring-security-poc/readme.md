@@ -1,4 +1,4 @@
-Login page:  http://localhost:8080/login_page
+Login page:  `http://localhost:8080/login_page`
 
 ## Примеры управления доступом
 

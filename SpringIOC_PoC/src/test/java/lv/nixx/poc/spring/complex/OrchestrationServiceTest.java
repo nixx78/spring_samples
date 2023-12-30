@@ -12,7 +12,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = AppConfig.class)
+@ContextConfiguration(classes = ComplexAppConfig.class)
 class OrchestrationServiceTest {
 
     @Autowired

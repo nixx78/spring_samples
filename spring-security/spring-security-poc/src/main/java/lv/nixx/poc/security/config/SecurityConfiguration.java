@@ -56,7 +56,7 @@ public class SecurityConfiguration {
                 .antMatchers("/urlBased/basicSecured").hasAnyRole("ADMIN", "SIMPLE_USER")
                 .antMatchers("/urlBased/secured").hasRole("ADMIN")
                 .antMatchers("/urlBased/home").permitAll()
-                .antMatchers("/urlBased/twoRolesRequired").access("hasRole('ADMIN') and hasRole('POWER')")
+                .antMatchers("/urlBased/twoRolesRequired").access("hasRole('ADMIN') and hasAnyRole('POWER','POWER1')")
 
                 .antMatchers(GET, "/urlBased/action").hasRole("SIMPLE_USER")
                 .antMatchers(POST, "/urlBased/action").hasRole("ADMIN")

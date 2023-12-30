@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: dev
+server:
+  port: 9001
+  name: Development server
+---
+spring:
+  profiles:
+    active: prod
+server:
+  port: 0
+  name: Production server
