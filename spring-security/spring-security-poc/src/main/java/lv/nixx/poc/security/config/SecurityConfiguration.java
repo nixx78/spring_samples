@@ -48,6 +48,15 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+        http.headers(headers ->
+                headers.xssProtection(
+                                xss -> xss.xssProtectionEnabled(true)
+                        )
+                        .contentSecurityPolicy(
+                                cps -> cps.policyDirectives("script-src 'self'")
+                        )
+        );
+
         http.csrf().disable()
                 .userDetailsService(userDetailsService)
                 .authorizeRequests()
@@ -86,7 +95,7 @@ public class SecurityConfiguration {
                 //.successHandler()
                 .failureHandler(new CustomAuthenticationFailureHandler())
                 .and()
-                        .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
+                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")
