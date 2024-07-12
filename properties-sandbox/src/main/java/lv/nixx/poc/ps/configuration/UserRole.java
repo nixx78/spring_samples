@@ -1,7 +1,7 @@
 package lv.nixx.poc.ps.configuration;
 
 import lombok.Getter;
-import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
 @Getter
 public class UserRole {
