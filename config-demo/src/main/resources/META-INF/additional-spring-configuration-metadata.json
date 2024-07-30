@@ -1,5 +1,0 @@
-{"properties": [{
-  "name": "server.name",
-  "type": "java.lang.String",
-  "description": "Property set server name"
-}]}
