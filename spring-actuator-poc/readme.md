@@ -5,8 +5,7 @@
 
 
 Endpoint: http://localhost:8080/hello-actuator-poc/message  
-Информация о приложении: http://localhost:8081/hello-actuator-management/actuator
-
+Информация о приложении: http://localhost:8081/hello-actuator-management/actuator/health
 
 Запуск Docker c базой данных: docker-compose up -d  
 Остановка Docker: docker-compose down
