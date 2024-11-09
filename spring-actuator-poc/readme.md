@@ -1,4 +1,7 @@
 ## Проект песочница для SpringActuator
+
+!!! Все что связано с actuator перенесено в generic-project-poc
+!!! DataSource configuration samples -> Spring Data JPA sample project: spring-data-jpa
 Мониторинг различных ресурсов:
 * База данных
 * Компоненты приложения

@@ -4,7 +4,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -19,14 +18,6 @@ import java.sql.Connection;
 public class Config {
 
 	private final static Logger log = LoggerFactory.getLogger(Config.class);
-
-	@Bean
-	public HealthIndicator serviceHealthIndicator(ServiceForMonitoring service) {
-		return () -> Health.status(service.getStatus())
-				.withDetail("detail", service.getDetails())
-				.withDetail("message", service.getMessage())
-				.build();
-	}
 
 	@Bean
 	@ConfigurationProperties("spring.datasource.alpha")  // Настройки для основного DataSource
